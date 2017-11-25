@@ -19,6 +19,10 @@ class Price(model.Base):
   def amount_currency(self):
     return '%.4f %s' % (self.amount, self.currency_to_key.get().code)
 
+  @ndb.ComputedProperty
+  def amount_invert(self):
+    return 1.0 / self.amount
+
   FIELDS = {
     'currency_from_key': fields.Key,
     'currency_to_key': fields.Key,

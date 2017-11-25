@@ -28,6 +28,9 @@ class Currency(model.Base):
   def get_price_dbs(self, **kwargs):
     return model.Price.get_dbs(currency_from_key=self.key, **kwargs)
 
+  def _pre_put_hook(self):
+    self.code = self.code.upper()
+
   @classmethod
   def _pre_delete_hook(cls, key):
     currency_db = key.get()

@@ -6,7 +6,6 @@ import flask_wtf
 import wtforms
 
 import auth
-import config
 import model
 import util
 

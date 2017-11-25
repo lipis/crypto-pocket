@@ -8,6 +8,7 @@ from google.appengine.ext import ndb
 from api import fields
 import model
 import util
+import crypto
 
 
 class Transaction(model.Base):
@@ -22,17 +23,29 @@ class Transaction(model.Base):
 
   @ndb.ComputedProperty
   def spent(self):
-    return '%.4f %s' % (self.spent_amount, self.spent_currency_key.get().code)
+    return self.spent_amount
 
   @ndb.ComputedProperty
   def aquired(self):
-    return '%.4f %s' % (self.aquired_amount, self.aquired_currency_key.get().code)
+    return self.aquired_amount
 
   @ndb.ComputedProperty
-  def rate(self):
+  def aquired_rate(self):
     if self.spent_amount != 0:
-      return '%.4f %s' % (self.spent_amount / self.aquired_amount, self.spent_currency_key.get().code)
-    return '%.4f %s' (self.aquired_currency_key.get().code)
+      return self.spent_amount / self.aquired_amount
+    return 0
+
+  @ndb.ComputedProperty
+  def current_rate(self):
+    return crypto.get_exchange_rate_by_keys(self.aquired_currency_key, self.spent_currency_key)
+
+  @ndb.ComputedProperty
+  def profit(self):
+    return (self.current_rate - self.aquired_rate) * self.aquired_amount
+
+  @ndb.ComputedProperty
+  def total(self):
+    return self.profit + self.spent_amount
 
   @classmethod
   def get_dbs(cls, order=None, **kwargs):

@@ -19,28 +19,34 @@
     </h1>
   </div>
   <div class="row">
+
+    # set spent_currency = transaction_db.spent_currency_key.get().code
     <div class="col-md-6">
       <table class="table table-bordered table-striped">
         <tbody>
           <tr>
-            <th class="text-nowrap col-xs-1">{{_('Spent Amount')}}</th>
-            <td class="col-xs-11">{{transaction_db.spent_amount}}</td>
+            <th class="text-nowrap col-xs-1">{{_('Date')}}</th>
+            <td class="col-xs-11">{{transaction_db.date.strftime('%d %b %Y')}}</td>
           </tr>
           <tr>
-            <th class="text-nowrap col-xs-1">{{_('Spent Currency')}}</th>
-            <td class="col-xs-11">{{transaction_db.spent_currency_key.get().name if transaction_db.spent_currency_key else ''}}</td>
+            <th class="text-nowrap col-xs-1">{{_('Spent Amount')}}</th>
+            <td class="col-xs-11">{{utils.currency(transaction_db.spent, spent_currency)}}</td>
           </tr>
           <tr>
             <th class="text-nowrap col-xs-1">{{_('Aquired Amount')}}</th>
-            <td class="col-xs-11">{{transaction_db.aquired_amount}}</td>
+            <td class="col-xs-11">{{utils.currency(transaction_db.aquired, transaction_db.aquired_currency_key.get().code)}}</td>
           </tr>
           <tr>
-            <th class="text-nowrap col-xs-1">{{_('Aquired Currency Key')}}</th>
-            <td class="col-xs-11">{{transaction_db.aquired_currency_key.get().name if transaction_db.aquired_currency_key else ''}}</td>
+            <th class="text-nowrap col-xs-1">{{_('Aquired Rate')}}</th>
+            <td class="col-xs-11">{{utils.currency(transaction_db.aquired_rate, spent_currency)}}</td>
           </tr>
           <tr>
-            <th class="text-nowrap col-xs-1">{{_('Date')}}</th>
-            <td class="col-xs-11">{{transaction_db.date}}</td>
+            <th class="text-nowrap col-xs-1">{{_('Profit')}}</th>
+            <td class="col-xs-11">{{utils.currency(transaction_db.profit, spent_currency)}}</td>
+          </tr>
+          <tr>
+            <th class="text-nowrap col-xs-1">{{_('Total')}}</th>
+            <td class="col-xs-11">{{utils.currency(transaction_db.total, spent_currency)}}</td>
           </tr>
           <tr>
             <th class="text-nowrap col-xs-1">{{_('Notes')}}</th>

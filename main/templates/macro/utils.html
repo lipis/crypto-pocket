@@ -130,3 +130,12 @@
     {{content}}</{{name}}>
   #- endif
 # endmacro
+
+
+# macro currency(amount, currency)
+  {{"{:,.4f} {}".format(amount, currency or '')}}
+# endmacro
+
+# macro amount_color(amount, positive=True)
+  <span class="{{'text-success' if positive else 'text-danger'}}">{{amount}}</span>
+# endmacro
