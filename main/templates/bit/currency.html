@@ -1,0 +1,25 @@
+# if current_user.id > 0 and currency_dbs
+  # set user_currency_db = current_user.user_db.currency_key.get() if current_user.user_db.currency_key else None
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      <span class="fa fa-fw fa-money"></span> {{'%s (%s)' % (user_currency_db.name, user_currency_db.code) if user_currency_db}} <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      # for currency_db in currency_dbs
+        # if user_currency_db and currency_db.key == user_currency_db.key
+          <li class="disabled">
+            <a tabindex="-1">
+              {{currency_db.name}} ({{currency_db.code}})
+            </a>
+          </li>
+        # else
+          <li>
+            <a tabindex="-1" href="{{url_for('set_currency', currency_id=currency_db.key.id())}}">
+              {{currency_db.name}} ({{currency_db.code}})
+            </a>
+          </li>
+        # endif
+      # endfor
+    </ul>
+  </li>
+# endif

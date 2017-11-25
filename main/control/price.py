@@ -6,8 +6,8 @@ import flask_wtf
 import wtforms
 
 import auth
-import config
 import model
+import task
 import util
 
 from main import app
@@ -112,6 +112,7 @@ def admin_price_update(price_id=0):
     form.currency_to_key.data = ndb.Key(urlsafe=form.currency_to_key.data) if form.currency_to_key.data else None
     form.populate_obj(price_db)
     price_db.put()
+    task.update_price_task(price_db)
     return flask.redirect(flask.url_for('admin_price_list', order='-modified'))
 
   return flask.render_template(

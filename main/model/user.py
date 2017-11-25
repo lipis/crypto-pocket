@@ -27,6 +27,7 @@ class User(model.Base):
   verified = ndb.BooleanProperty(default=False, verbose_name=_('Verified'))
   token = ndb.StringProperty(default='')
   password_hash = ndb.StringProperty(default='')
+  currency_key = ndb.KeyProperty(kind=model.Currency, verbose_name=_(u'Currency'))
 
   def has_permission(self, perm):
     return self.admin or perm in self.permissions

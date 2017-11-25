@@ -2,6 +2,7 @@
 
 from flask_babel import gettext as __
 from flask_babel import lazy_gettext as _
+from google.appengine.ext import ndb
 import flask
 import wtforms
 
@@ -48,6 +49,11 @@ class ProfileUpdateForm(i18n.Form):
     model.User.locale._verbose_name,
     choices=config.LOCALE_SORTED, filters=[util.strip_filter],
   )
+  currency_key = wtforms.SelectField(
+    model.User.currency_key._verbose_name,
+    [wtforms.validators.required()],
+    choices=[],
+  )
 
 
 @app.route('/profile/update/', methods=['GET', 'POST'])
@@ -56,6 +62,11 @@ def profile_update():
   user_db = auth.current_user_db()
   form = ProfileUpdateForm(obj=user_db)
 
+  currency_dbs, currency_cursor = model.Currency.get_dbs(limit=-1)
+  form.currency_key.choices = [(c.key.urlsafe(), c.name) for c in currency_dbs]
+  if flask.request.method == 'GET' and not form.errors:
+    form.currency_key.data = user_db.currency_key.urlsafe() if user_db.currency_key else None
+
   if form.validate_on_submit():
     email = form.email.data
     if email and not user_db.is_email_available(email, user_db.key):
@@ -63,6 +74,7 @@ def profile_update():
 
     if not form.errors:
       send_verification = not user_db.token or user_db.email != email
+      form.currency_key.data = ndb.Key(urlsafe=form.currency_key.data) if form.currency_key.data else None
       form.populate_obj(user_db)
       if send_verification:
         user_db.verified = False

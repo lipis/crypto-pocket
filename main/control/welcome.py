@@ -16,11 +16,13 @@ from main import app
 @app.route('/')
 def welcome():
   if auth.is_logged_in():
+    currency_dbs, currency_cursor = model.Currency.get_dbs(limit=-1)
     transaction_dbs, transaction_cursor = model.Transaction.get_dbs(user_key=auth.current_user_key())
     return flask.render_template(
       'welcome.html',
       html_class='welcome',
       transaction_dbs=transaction_dbs,
+      currency_dbs=currency_dbs,
       next_url=util.generate_next_url(transaction_cursor),
       api_url=flask.url_for('api.transaction.list'),
     )

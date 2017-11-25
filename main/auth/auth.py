@@ -63,6 +63,19 @@ def set_locale(locale):
   return util.set_locale(locale, flask.redirect(util.get_next_url()))
 
 
+@app.route('/c/<int:currency_id>/')
+def set_currency(currency_id):
+  user_db = current_user_db()
+  currency_db = model.Currency.get_by_id(currency_id)
+  if not currency_db:
+    flask.abort(404)
+
+  user_db.currency_key = currency_db.key
+  user_db.put()
+
+  return flask.redirect(util.get_next_url())
+
+
 ###############################################################################
 # Flask Login
 ###############################################################################

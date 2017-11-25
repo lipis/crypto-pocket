@@ -8,6 +8,7 @@ import wtforms
 import auth
 import crypto
 import model
+import task
 import util
 
 from main import app
@@ -89,6 +90,7 @@ def transaction_update(transaction_id=0):
         currency_to_key=transaction_db.acquired_currency_key,
       )
       price_db.put()
+      task.update_price_task(price_db)
 
     return flask.redirect(flask.url_for('transaction_view', transaction_id=transaction_db.key.id()))
 
