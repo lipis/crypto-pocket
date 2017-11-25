@@ -6,7 +6,7 @@ import flask_wtf
 import wtforms
 
 import auth
-import config
+import crypto
 import model
 import util
 
@@ -82,6 +82,14 @@ def transaction_update(transaction_id=0):
     form.acquired_currency_key.data = ndb.Key(urlsafe=form.acquired_currency_key.data) if form.acquired_currency_key.data else None
     form.populate_obj(transaction_db)
     transaction_db.put()
+
+    if not crypto.get_exchange_rate_by_keys(transaction_db.spent_currency_key, transaction_db.acquired_currency_key):
+      price_db = model.Price(
+        currency_from_key=transaction_db.spent_currency_key,
+        currency_to_key=transaction_db.acquired_currency_key,
+      )
+      price_db.put()
+
     return flask.redirect(flask.url_for('transaction_view', transaction_id=transaction_db.key.id()))
 
   return flask.render_template(

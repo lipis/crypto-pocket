@@ -18,9 +18,9 @@
     <div class="col-sm-6">
       <form method="POST" action="." novalidate>
         {{form.csrf_token}}
-        {{forms.date_field(form.date)}}
+        {{forms.date_field(form.date, autofocus=True)}}
         <div class="row">
-          <div class="col-xs-3">{{forms.number_field(form.spent_amount, autofocus=True)}}</div>
+          <div class="col-xs-3">{{forms.number_field(form.spent_amount)}}</div>
           <div class="col-xs-3">{{forms.number_field(form.fee)}}</div>
           <div class="col-xs-6">{{forms.select_field(form.spent_currency_key)}}</div>
         </div>
