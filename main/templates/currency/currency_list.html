@@ -20,7 +20,7 @@
       </thead>
       <tbody>
         # for currency_db in currency_dbs
-          <tr class="row-link" id="{{currency_db.key.urlsafe()}}" data-href="{{url_for('currency_view', currency_id=currency_db.key.id())}}">
+          <tr>
             <td>{{currency_db.name}}</td>
             <td>{{currency_db.code}}</td>
             <td>{{currency_db.symbol}}</td>

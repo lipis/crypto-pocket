@@ -13,17 +13,23 @@
     <table class="table table-striped table-bordered table-hover">
       <thead>
         <tr class="text-nowrap">
-          <th class="col-xs-1">{{utils.order_by_link('currency_from_key', _('Currency From'))}}</th>
-          <th class="col-xs-1">{{utils.order_by_link('currency_to_key', _('Currency To'))}}</th>
-          <th class="col-xs-1 text-right">{{utils.order_by_link('amount', _('Amount'))}}</th>
+          <th class="col-xs-1 text-center">{{utils.order_by_link('currency_from_key', _('Currency From'))}}</th>
+          <th class="col-xs-1 text-center">{{utils.order_by_link('currency_to_key', _('Currency To'))}}</th>
+          <th class="col-xs-1 text-center">{{utils.order_by_link('amount', _('Amount'))}}</th>
+          <th class="col-xs-1 text-center">{{utils.order_by_link('modified', 'Last updated')}}</th>
         </tr>
       </thead>
       <tbody>
         # for price_db in price_dbs
-          <tr class="row-link" id="{{price_db.key.urlsafe()}}" data-href="{{url_for('price_view', price_id=price_db.key.id())}}">
-            <td>{{price_db.currency_from_key.get().name if price_db.currency_from_key else ''}}</td>
-            <td>{{price_db.currency_to_key.get().name if price_db.currency_to_key else ''}}</td>
-            <td class="text-right">{{price_db.amount}}</td>
+          <tr>
+            <td>{{price_db.currency_from_key.get().name}}</td>
+            <td>{{price_db.currency_to_key.get().name}}</td>
+            <td class="text-right">{{utils.currency(price_db.amount, price_db.currency_to_key.get().code)}}</td>
+            <td>
+              <time datetime="{{price_db.modified}}">
+                {{price_db.modified.strftime('%Y-%m-%d')}}
+              </time>
+            </td>
           </tr>
         # endfor
       </tbody>

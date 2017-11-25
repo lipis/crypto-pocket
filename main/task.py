@@ -1,9 +1,11 @@
 # coding: utf-8
 
+import json
 import logging
 
 import flask
 from google.appengine.api import mail
+from google.appengine.api import urlfetch
 from google.appengine.ext import deferred
 
 import config
@@ -154,3 +156,26 @@ def email_conflict_notification(email):
     flask.url_for('user_list', email=email, _external=True),
   )
   send_mail_notification('Conflict with: %s' % email, body)
+
+
+###############################################################################
+# Cron Related
+###############################################################################
+def update_price_task(price_db):
+  deferred.defer(update_price, price_db)
+
+
+def update_price(price_db):
+  code_from = price_db.currency_from_key.get().code
+  code_to = price_db.currency_to_key.get().code
+  result = urlfetch.fetch('https://min-api.cryptocompare.com/data/price?fsym=%s&tsyms=%s' % (code_from, code_to))
+  if result.status_code == 200:
+    content = json.loads(result.content)
+
+    try:
+      price_db.amount = content[code_to]
+      price_db.put()
+    except:
+      flask.abort(404)
+  else:
+    flask.abort(result.status_code)
