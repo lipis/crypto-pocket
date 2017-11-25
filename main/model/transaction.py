@@ -13,11 +13,12 @@ import crypto
 
 class Transaction(model.Base):
   user_key = ndb.KeyProperty(kind=model.User, required=True, verbose_name=_(u'User Key'))
-  spent_amount = ndb.FloatProperty(default=0, verbose_name=_(u'Spent Amount'))
-  spent_currency_key = ndb.KeyProperty(kind=model.Currency, required=True, verbose_name=_(u'Spent Currency'))
-  aquired_amount = ndb.FloatProperty(default=0, verbose_name=_(u'Aquired Amount'))
-  aquired_currency_key = ndb.KeyProperty(kind=model.Currency, required=True, verbose_name=_(u'Aquired Currency Key'))
   date = ndb.DateProperty(required=True, verbose_name=_(u'Date'))
+  spent_amount = ndb.FloatProperty(default=0, verbose_name=_(u'Spent'))
+  spent_currency_key = ndb.KeyProperty(kind=model.Currency, required=True, verbose_name=_(u'Spent Currency'))
+  fee = ndb.FloatProperty(default=0, verbose_name=_(u'Fee'))
+  acquired_amount = ndb.FloatProperty(default=0, verbose_name=_(u'Acquired'))
+  acquired_currency_key = ndb.KeyProperty(kind=model.Currency, verbose_name=_(u'Acquired Currency'))
   notes = ndb.StringProperty(default='', verbose_name=_(u'Notes'))
   platform = ndb.StringProperty(default='', verbose_name=_(u'Platform'))
 
@@ -26,22 +27,22 @@ class Transaction(model.Base):
     return self.spent_amount
 
   @ndb.ComputedProperty
-  def aquired(self):
-    return self.aquired_amount
+  def acquired(self):
+    return self.acquired_amount
 
   @ndb.ComputedProperty
-  def aquired_rate(self):
-    if self.spent_amount != 0:
-      return self.spent_amount / self.aquired_amount
+  def acquired_rate(self):
+    if self.acquired_amount != 0:
+      return self.spent_amount / self.acquired_amount
     return 0
 
   @ndb.ComputedProperty
   def current_rate(self):
-    return crypto.get_exchange_rate_by_keys(self.aquired_currency_key, self.spent_currency_key)
+    return crypto.get_exchange_rate_by_keys(self.acquired_currency_key, self.spent_currency_key)
 
   @ndb.ComputedProperty
   def profit(self):
-    return (self.current_rate - self.aquired_rate) * self.aquired_amount
+    return (self.current_rate - self.acquired_rate) * self.acquired_amount - self.fee
 
   @ndb.ComputedProperty
   def total(self):
@@ -56,11 +57,12 @@ class Transaction(model.Base):
 
   FIELDS = {
     'user_key': fields.Key,
+    'date': fields.Fixed,
     'spent_amount': fields.Float,
     'spent_currency_key': fields.Key,
-    'aquired_amount': fields.Float,
-    'aquired_currency_key': fields.Key,
-    'date': fields.Fixed,
+    'fee': fields.Float,
+    'acquired_amount': fields.Float,
+    'acquired_currency_key': fields.Key,
     'notes': fields.String,
     'platform': fields.String,
   }

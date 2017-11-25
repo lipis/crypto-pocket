@@ -21,8 +21,10 @@
 
 # macro input_field(field, prefix='', suffix='')
   <div class="form-group {{'has-error' if field.errors}}">
-    {{field.label(class='control-label')}}
-    {{field_optional(field)}}
+    <div class="ellipsis">
+      {{field.label(class='control-label')}}
+      {{field_optional(field)}}
+    </div>
     # if prefix or suffix
       <div class="input-group">
         # if prefix

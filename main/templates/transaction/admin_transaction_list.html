@@ -19,11 +19,12 @@
       <thead>
         <tr class="text-nowrap">
           <th class="col-xs-1">{{utils.order_by_link('user_key', _('User Key'))}}</th>
+          <th class="col-xs-1">{{utils.order_by_link('date', _('Date'))}}</th>
           <th class="col-xs-1 text-right">{{utils.order_by_link('spent_amount', _('Spent Amount'))}}</th>
           <th class="col-xs-1">{{utils.order_by_link('spent_currency_key', _('Spent Currency'))}}</th>
-          <th class="col-xs-1 text-right">{{utils.order_by_link('aquired_amount', _('Aquired Amount'))}}</th>
-          <th class="col-xs-1">{{utils.order_by_link('aquired_currency_key', _('Aquired Currency Key'))}}</th>
-          <th class="col-xs-1">{{utils.order_by_link('date', _('Date'))}}</th>
+          <th class="col-xs-1 text-right">{{utils.order_by_link('fee', _('Fee'))}}</th>
+          <th class="col-xs-1 text-right">{{utils.order_by_link('acquired_amount', _('Acquired Amount'))}}</th>
+          <th class="col-xs-1">{{utils.order_by_link('acquired_currency_key', _('Acquired Currency Key'))}}</th>
           <th class="col-xs-1">{{utils.order_by_link('notes', _('Notes'))}}</th>
           <th class="col-xs-1">{{utils.order_by_link('platform', _('Platform'))}}</th>
           <th class="col-xs-1">{{utils.order_by_link('user_key', 'User')}}</th>
@@ -34,11 +35,12 @@
         # for transaction_db in transaction_dbs
           <tr class="row-link" id="{{transaction_db.key.urlsafe()}}" data-href="{{url_for('admin_transaction_update', transaction_id=transaction_db.key.id())}}">
             <td>{{transaction_db.user_key.get().name if transaction_db.user_key else ''}}</td>
+            <td>{{transaction_db.date}}</td>
             <td class="text-right">{{transaction_db.spent_amount}}</td>
             <td>{{transaction_db.spent_currency_key.get().name if transaction_db.spent_currency_key else ''}}</td>
-            <td class="text-right">{{transaction_db.aquired_amount}}</td>
-            <td>{{transaction_db.aquired_currency_key.get().name if transaction_db.aquired_currency_key else ''}}</td>
-            <td>{{transaction_db.date}}</td>
+            <td class="text-right">{{transaction_db.fee}}</td>
+            <td class="text-right">{{transaction_db.acquired_amount}}</td>
+            <td>{{transaction_db.acquired_currency_key.get().name if transaction_db.acquired_currency_key else ''}}</td>
             <td>{{transaction_db.notes}}</td>
             <td>{{transaction_db.platform}}</td>
             <td>

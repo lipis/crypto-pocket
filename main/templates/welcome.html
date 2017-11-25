@@ -22,8 +22,8 @@
           <tr class="text-nowrap">
             <th class="col-xs-1 text-center">{{utils.order_by_link('date', _('Date'))}}</th>
             <th class="col-xs-1 text-center">{{utils.order_by_link('spent_amount', _('Spent'))}}</th>
-            <th class="col-xs-1 text-center">{{utils.order_by_link('aquired_amount', _('Aquired'))}}</th>
-            <th class="col-xs-1 text-center">{{utils.order_by_link('aquired_rate', _('Aquired Rate'))}}</th>
+            <th class="col-xs-1 text-center">{{utils.order_by_link('acquired_amount', _('Acquired'))}}</th>
+            <th class="col-xs-1 text-center">{{utils.order_by_link('acquired_rate', _('Acquired Rate'))}}</th>
             <th class="col-xs-1 text-center">{{utils.order_by_link('current_rate', _('Current Rate'))}}</th>
             <th class="col-xs-1 text-center">{{utils.order_by_link('profit', _('Profit'))}}</th>
             <th class="col-xs-1 text-center">{{utils.order_by_link('total', _('Total'))}}</th>
@@ -31,12 +31,15 @@
         </thead>
         <tbody>
           # for transaction_db in transaction_dbs
-            <tr class="row-link {{'text-success' if transaction_db.total > transaction_db.spent_amount else 'text-danger'}}" id="{{transaction_db.key.urlsafe()}}" data-href="{{url_for('transaction_view', transaction_id=transaction_db.key.id())}}">
-              <td>{{transaction_db.date.strftime('%d %b %Y')}}</td>
+            <tr class="row-link {{'text-success' if transaction_db.total > transaction_db.spent_amount else 'text-danger' if transaction_db.current_rate else 'text-muted'}}" id="{{transaction_db.key.urlsafe()}}" data-href="{{url_for('transaction_view', transaction_id=transaction_db.key.id())}}">
+              <td class="text-center text-nowrap">{{transaction_db.date.strftime('%d %b %Y')}}</td>
               # set spent_currency = transaction_db.spent_currency_key.get().code
-              <td class="text-right text-nowrap">{{utils.currency(transaction_db.spent, spent_currency)}}</td>
-              <td class="text-right text-nowrap">{{utils.currency(transaction_db.aquired, transaction_db.aquired_currency_key.get().code)}}</td>
-              <td class="text-right text-nowrap">{{utils.currency(transaction_db.aquired_rate, spent_currency)}}</td>
+              <td class="text-right text-nowrap">
+                <div>{{utils.currency(transaction_db.spent, spent_currency)}}</div>
+                <small class="text-muted">{{utils.currency(transaction_db.fee, spent_currency)}}</small>
+              </td>
+              <td class="text-right text-nowrap">{{utils.currency(transaction_db.acquired, transaction_db.acquired_currency_key.get().code)}}</td>
+              <td class="text-right text-nowrap">{{utils.currency(transaction_db.acquired_rate, spent_currency)}}</td>
               <td class="text-right text-nowrap">{{utils.currency(transaction_db.current_rate, spent_currency)}}</td>
               <td class="text-right text-nowrap">{{utils.currency(transaction_db.profit, spent_currency)}}</td>
               <td class="text-right text-nowrap">{{utils.currency(transaction_db.total, spent_currency)}}</td>

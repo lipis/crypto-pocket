@@ -17,6 +17,10 @@ from main import app
 # Update
 ###############################################################################
 class TransactionUpdateForm(flask_wtf.FlaskForm):
+  date = wtforms.DateField(
+    model.Transaction.date._verbose_name,
+    [wtforms.validators.required()],
+  )
   spent_amount = wtforms.FloatField(
     model.Transaction.spent_amount._verbose_name,
     [wtforms.validators.optional()],
@@ -26,18 +30,18 @@ class TransactionUpdateForm(flask_wtf.FlaskForm):
     [wtforms.validators.required()],
     choices=[],
   )
-  aquired_amount = wtforms.FloatField(
-    model.Transaction.aquired_amount._verbose_name,
+  fee = wtforms.FloatField(
+    model.Transaction.fee._verbose_name,
     [wtforms.validators.optional()],
   )
-  aquired_currency_key = wtforms.SelectField(
-    model.Transaction.aquired_currency_key._verbose_name,
+  acquired_amount = wtforms.FloatField(
+    model.Transaction.acquired_amount._verbose_name,
+    [wtforms.validators.optional()],
+  )
+  acquired_currency_key = wtforms.SelectField(
+    model.Transaction.acquired_currency_key._verbose_name,
     [wtforms.validators.required()],
     choices=[],
-  )
-  date = wtforms.DateField(
-    model.Transaction.date._verbose_name,
-    [wtforms.validators.required()],
   )
   notes = wtforms.TextAreaField(
     model.Transaction.notes._verbose_name,
@@ -68,14 +72,14 @@ def transaction_update(transaction_id=0):
   user_dbs, user_cursor = model.User.get_dbs(limit=-1)
   currency_dbs, currency_cursor = model.Currency.get_dbs(limit=-1)
   form.spent_currency_key.choices = [(c.key.urlsafe(), c.name) for c in currency_dbs]
-  form.aquired_currency_key.choices = [(c.key.urlsafe(), c.name) for c in currency_dbs]
+  form.acquired_currency_key.choices = [(c.key.urlsafe(), c.name) for c in currency_dbs]
   if flask.request.method == 'GET' and not form.errors:
     form.spent_currency_key.data = transaction_db.spent_currency_key.urlsafe() if transaction_db.spent_currency_key else None
-    form.aquired_currency_key.data = transaction_db.aquired_currency_key.urlsafe() if transaction_db.aquired_currency_key else None
+    form.acquired_currency_key.data = transaction_db.acquired_currency_key.urlsafe() if transaction_db.acquired_currency_key else None
 
   if form.validate_on_submit():
     form.spent_currency_key.data = ndb.Key(urlsafe=form.spent_currency_key.data) if form.spent_currency_key.data else None
-    form.aquired_currency_key.data = ndb.Key(urlsafe=form.aquired_currency_key.data) if form.aquired_currency_key.data else None
+    form.acquired_currency_key.data = ndb.Key(urlsafe=form.acquired_currency_key.data) if form.acquired_currency_key.data else None
     form.populate_obj(transaction_db)
     transaction_db.put()
     return flask.redirect(flask.url_for('transaction_view', transaction_id=transaction_db.key.id()))
@@ -168,14 +172,14 @@ def admin_transaction_update(transaction_id=0):
   user_dbs, user_cursor = model.User.get_dbs(limit=-1)
   currency_dbs, currency_cursor = model.Currency.get_dbs(limit=-1)
   form.spent_currency_key.choices = [(c.key.urlsafe(), c.name) for c in currency_dbs]
-  form.aquired_currency_key.choices = [(c.key.urlsafe(), c.name) for c in currency_dbs]
+  form.acquired_currency_key.choices = [(c.key.urlsafe(), c.name) for c in currency_dbs]
   if flask.request.method == 'GET' and not form.errors:
     form.spent_currency_key.data = transaction_db.spent_currency_key.urlsafe() if transaction_db.spent_currency_key else None
-    form.aquired_currency_key.data = transaction_db.aquired_currency_key.urlsafe() if transaction_db.aquired_currency_key else None
+    form.acquired_currency_key.data = transaction_db.acquired_currency_key.urlsafe() if transaction_db.acquired_currency_key else None
 
   if form.validate_on_submit():
     form.spent_currency_key.data = ndb.Key(urlsafe=form.spent_currency_key.data) if form.spent_currency_key.data else None
-    form.aquired_currency_key.data = ndb.Key(urlsafe=form.aquired_currency_key.data) if form.aquired_currency_key.data else None
+    form.acquired_currency_key.data = ndb.Key(urlsafe=form.acquired_currency_key.data) if form.acquired_currency_key.data else None
     form.populate_obj(transaction_db)
     transaction_db.put()
     return flask.redirect(flask.url_for('admin_transaction_list', order='-modified'))

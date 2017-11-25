@@ -12,7 +12,7 @@ import util
 
 class Price(model.Base):
   currency_from_key = ndb.KeyProperty(kind=model.Currency, required=True, verbose_name=_(u'Currency From'))
-  currency_to_key = ndb.KeyProperty(kind=model.Currency, required=True, verbose_name=_(u'Currency Key'))
+  currency_to_key = ndb.KeyProperty(kind=model.Currency, required=True, verbose_name=_(u'Currency To'))
   amount = ndb.FloatProperty(default=0, verbose_name=_(u'Amount'))
 
   @ndb.ComputedProperty
@@ -21,7 +21,9 @@ class Price(model.Base):
 
   @ndb.ComputedProperty
   def amount_invert(self):
-    return 1.0 / self.amount
+    if self.amount != 0:
+      return 1.0 / self.amount
+    return 1
 
   FIELDS = {
     'currency_from_key': fields.Key,
