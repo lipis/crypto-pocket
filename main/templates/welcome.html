@@ -1,31 +1,51 @@
 # extends 'base.html'
+# import 'macro/utils.html' as utils
 
 # block header
   <div class="jumbotron">
-    <div class="container">
+    <div class="container text-center">
       <h1>{{config.CONFIG_DB.brand_name}}</h1>
-      <p>Hello, world!</p>
+      <p>Hello, crypto-world!</p>
     </div>
   </div>
 # endblock
 
 # block content
-  <div class="row">
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  # if current_user.id > 0
+  <div class="page-header">
+      <a class="pull-right btn btn-primary" href="{{url_for('transaction_update')}}">
+        <fa class="fa fa-plus fa-fw"></fa> Add Transaction
+      </a>
+      <h1>{{_('My Transactions')}}</h1>
     </div>
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+    <div class="table-responsive {{'hide' if not transaction_dbs|count}}">
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr class="text-nowrap">
+            <th class="col-xs-2">{{utils.order_by_link('date', _('Date'))}}</th>
+            <th class="col-xs-2 text-right">{{utils.order_by_link('spent_amount', _('Spent'))}}</th>
+            <th class="col-xs-2 text-right">{{utils.order_by_link('aquired_amount', _('Aquired'))}}</th>
+            <th class="col-xs-2 text-right">{{utils.order_by_link('rate', _('Rate'))}}</th>
+            <th class="col-xs-3">{{utils.order_by_link('notes', _('Notes'))}}</th>
+            <th class="col-xs-3">{{utils.order_by_link('platform', _('Platform'))}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          # for transaction_db in transaction_dbs
+            <tr class="row-link" id="{{transaction_db.key.urlsafe()}}" data-href="{{url_for('transaction_view', transaction_id=transaction_db.key.id())}}">
+              <td>{{transaction_db.date}}</td>
+              <td class="text-right text-nowrap">{{transaction_db.spent}}</td>
+              <td class="text-right text-nowrap">{{transaction_db.aquired}}</td>
+              <td class="text-right text-nowrap">{{transaction_db.rate}}</td>
+              <td>{{transaction_db.notes}}</td>
+              <td>{{transaction_db.platform}}</td>
+            </tr>
+          # endfor
+        </tbody>
+      </table>
     </div>
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-    <div class="col-sm-6 col-md-12 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-  </div>
+
+    {{utils.next_link(next_url)}}
+  # endif
 # endblock

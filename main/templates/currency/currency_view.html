@@ -1,0 +1,91 @@
+# extends 'base.html'
+# import 'macro/forms.html' as forms
+# import 'macro/utils.html' as utils
+
+
+# block content
+  <div class="page-header">
+    <h1>
+      {{utils.back_link('Back', 'currency_list')}}
+      {{title}}
+    </h1>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <table class="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <th class="text-nowrap col-xs-1">{{_('Name')}}</th>
+            <td class="col-xs-11">{{currency_db.name}}</td>
+          </tr>
+          <tr>
+            <th class="text-nowrap col-xs-1">{{_('Code')}}</th>
+            <td class="col-xs-11">{{currency_db.code}}</td>
+          </tr>
+          <tr>
+            <th class="text-nowrap col-xs-1">{{_('Symbol')}}</th>
+            <td class="col-xs-11">{{currency_db.symbol}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  # set transaction_dbs, transaction_cursor = currency_db.get_transaction_dbs(limit=-1)
+  <div class="{{'hide' if not transaction_dbs|count}}">
+    <h3>Transaction List</h3>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr class="text-nowrap">
+          <th class="col-xs-1 text-right">{{_('Spent Amount')}}</th>
+          <th class="col-xs-1">{{_('Spent Currency')}}</th>
+          <th class="col-xs-1 text-right">{{_('Aquired Amount')}}</th>
+          <th class="col-xs-1">{{_('Aquired Currency Key')}}</th>
+          <th class="col-xs-1">{{_('Date')}}</th>
+          <th class="col-xs-1">{{_('Notes')}}</th>
+          <th class="col-xs-1">{{_('Platform')}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          # for transaction_db in transaction_dbs
+            <tr class="row-link" id="{{transaction_db.key.urlsafe()}}" data-href="{{url_for('transaction_view', transaction_id=transaction_db.key.id())}}">
+              <td class="text-right">{{transaction_db.spent_amount}}</td>
+              <td>{{transaction_db.spent_currency_key.get().name if transaction_db.spent_currency_key else ''}}</td>
+              <td class="text-right">{{transaction_db.aquired_amount}}</td>
+              <td>{{transaction_db.aquired_currency_key.get().name if transaction_db.aquired_currency_key else ''}}</td>
+              <td>{{transaction_db.date}}</td>
+              <td>{{transaction_db.notes}}</td>
+              <td>{{transaction_db.platform}}</td>
+            </tr>
+          # endfor
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  # set price_dbs, price_cursor = currency_db.get_price_dbs(limit=-1)
+  <div class="{{'hide' if not price_dbs|count}}">
+    <h3>Price List</h3>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr class="text-nowrap">
+          <th class="col-xs-1">{{_('Currency From')}}</th>
+          <th class="col-xs-1">{{_('Currency Key')}}</th>
+          <th class="col-xs-1 text-right">{{_('Amount')}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          # for price_db in price_dbs
+            <tr class="row-link" id="{{price_db.key.urlsafe()}}" data-href="{{url_for('price_view', price_id=price_db.key.id())}}">
+              <td>{{price_db.currency_from_key.get().name if price_db.currency_from_key else ''}}</td>
+              <td>{{price_db.currency_to_key.get().name if price_db.currency_to_key else ''}}</td>
+              <td class="text-right">{{price_db.amount}}</td>
+            </tr>
+          # endfor
+        </tbody>
+      </table>
+    </div>
+  </div>
+# endblock

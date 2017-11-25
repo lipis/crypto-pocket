@@ -1,0 +1,38 @@
+# extends 'base.html'
+# import 'macro/forms.html' as forms
+# import 'macro/utils.html' as utils
+
+
+# block content
+  <div class="page-header">
+    <h1>
+      # if transaction_db.key
+        {{utils.back_link('Back', 'transaction_view', transaction_id=transaction_db.key.id())}}
+      # else
+        {{utils.back_link('Back', 'transaction_list')}}
+      # endif
+      {{title}}
+    </h1>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <form method="POST" action="." novalidate>
+        {{form.csrf_token}}
+        {{forms.number_field(form.spent_amount, autofocus=True)}}
+        {{forms.select_field(form.spent_currency_key)}}
+        {{forms.number_field(form.aquired_amount)}}
+        {{forms.select_field(form.aquired_currency_key)}}
+        {{forms.date_field(form.date)}}
+        {{forms.textarea_field(form.notes)}}
+        {{forms.text_field(form.platform)}}
+        <button type="submit" class="btn btn-primary btn-block btn-loading" {{forms.data_loading_text()}}>
+          # if transaction_db.key
+            {{_('Update')}}
+          # else
+            {{_('Create')}}
+          # endif
+        </button>
+      </form>
+    </div>
+  </div>
+# endblock

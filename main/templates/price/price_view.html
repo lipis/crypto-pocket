@@ -1,0 +1,33 @@
+# extends 'base.html'
+# import 'macro/forms.html' as forms
+# import 'macro/utils.html' as utils
+
+
+# block content
+  <div class="page-header">
+    <h1>
+      {{utils.back_link('Back', 'price_list')}}
+      {{title}}
+    </h1>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <table class="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <th class="text-nowrap col-xs-1">{{_('Currency From')}}</th>
+            <td class="col-xs-11">{{price_db.currency_from_key.get().name if price_db.currency_from_key else ''}}</td>
+          </tr>
+          <tr>
+            <th class="text-nowrap col-xs-1">{{_('Currency Key')}}</th>
+            <td class="col-xs-11">{{price_db.currency_to_key.get().name if price_db.currency_to_key else ''}}</td>
+          </tr>
+          <tr>
+            <th class="text-nowrap col-xs-1">{{_('Amount')}}</th>
+            <td class="col-xs-11">{{price_db.amount}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+# endblock

@@ -1,0 +1,64 @@
+# extends 'admin/admin_base.html'
+# import 'macro/utils.html' as utils
+
+# block head
+  {{utils.prefetch_link(next_url)}}
+# endblock
+
+# block admin_content
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <a class="btn btn-sm btn-primary" href="{{url_for('admin_transaction_update')}}">
+        <span class="fa fa-plus"></span> New Transaction
+      </a>
+    </div>
+  </div>
+
+  <div class="table-responsive {{'hide' if not transaction_dbs|count}}">
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr class="text-nowrap">
+          <th class="col-xs-1">{{utils.order_by_link('user_key', _('User Key'))}}</th>
+          <th class="col-xs-1 text-right">{{utils.order_by_link('spent_amount', _('Spent Amount'))}}</th>
+          <th class="col-xs-1">{{utils.order_by_link('spent_currency_key', _('Spent Currency'))}}</th>
+          <th class="col-xs-1 text-right">{{utils.order_by_link('aquired_amount', _('Aquired Amount'))}}</th>
+          <th class="col-xs-1">{{utils.order_by_link('aquired_currency_key', _('Aquired Currency Key'))}}</th>
+          <th class="col-xs-1">{{utils.order_by_link('date', _('Date'))}}</th>
+          <th class="col-xs-1">{{utils.order_by_link('notes', _('Notes'))}}</th>
+          <th class="col-xs-1">{{utils.order_by_link('platform', _('Platform'))}}</th>
+          <th class="col-xs-1">{{utils.order_by_link('user_key', 'User')}}</th>
+          <th class="col-xs-1">{{utils.order_by_link('modified', 'Modified')}}<br><small>{{utils.order_by_link('created', 'Created')}}</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        # for transaction_db in transaction_dbs
+          <tr class="row-link" id="{{transaction_db.key.urlsafe()}}" data-href="{{url_for('admin_transaction_update', transaction_id=transaction_db.key.id())}}">
+            <td>{{transaction_db.user_key.get().name if transaction_db.user_key else ''}}</td>
+            <td class="text-right">{{transaction_db.spent_amount}}</td>
+            <td>{{transaction_db.spent_currency_key.get().name if transaction_db.spent_currency_key else ''}}</td>
+            <td class="text-right">{{transaction_db.aquired_amount}}</td>
+            <td>{{transaction_db.aquired_currency_key.get().name if transaction_db.aquired_currency_key else ''}}</td>
+            <td>{{transaction_db.date}}</td>
+            <td>{{transaction_db.notes}}</td>
+            <td>{{transaction_db.platform}}</td>
+            <td>
+              # set user_db = transaction_db.user_key.get()
+              <img src="{{user_db.avatar_url_size(36)}}" width="18" height="18">
+              {{user_db.name}}
+            </td>
+            <td>
+              <time datetime="{{transaction_db.modified}}">
+                {{transaction_db.modified.strftime('%Y-%m-%d')}}
+              </time><br>
+              <time class="text-success small" datetime="{{transaction_db.created}}">
+                {{transaction_db.created.strftime('%Y-%m-%d')}}
+              </time>
+            </td>
+          </tr>
+        # endfor
+      </tbody>
+    </table>
+  </div>
+
+  {{utils.next_link(next_url)}}
+# endblock

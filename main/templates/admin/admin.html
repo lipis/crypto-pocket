@@ -17,6 +17,9 @@
 
   <div class="row text-center">
     {{admin_link('User List', 'group', url_for('user_list', order='-modified', active=True))}}
+    {{admin_link('Currency', 'dollar', url_for('admin_currency_list'))}}
+    {{admin_link('Transaction', 'arrows-h', url_for('admin_transaction_list'))}}
+    {{admin_link('Price', 'bitcoin', url_for('admin_price_list'))}}
   </div>
 
   <div class="page-header">

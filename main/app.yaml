@@ -44,6 +44,10 @@ handlers:
   static_dir: static/
   expiration: "365d"
 
+- url: /manifest.json
+  static_files: static/manifest.json
+  upload: static/manifest.json
+
 - url: /.*
   script: main.app
   secure: always

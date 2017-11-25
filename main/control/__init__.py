@@ -8,3 +8,6 @@ from .feedback import *
 from .profile import *
 from .test import *
 from .welcome import *
+from .currency import *
+from .transaction import *
+from .price import *
