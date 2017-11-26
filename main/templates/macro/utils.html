@@ -139,3 +139,14 @@
 # macro amount_color(amount, positive=True)
   <span class="{{'text-success' if positive else 'text-danger'}}">{{amount}}</span>
 # endmacro
+
+
+# macro currency_icon(code)
+  # if code in ['EUR', 'USD']
+    <span class="fa fa-{{code.lower()}}"></span>
+  # else
+    <span class="cc {{code}}-alt"></span>
+  # endif
+
+
+# endmacro

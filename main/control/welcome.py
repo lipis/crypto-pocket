@@ -6,7 +6,6 @@ from google.appengine.ext import ndb
 import auth
 import config
 import model
-import util
 
 from main import app
 
@@ -17,7 +16,7 @@ from main import app
 @app.route('/')
 def welcome():
   if auth.is_logged_in():
-    currency_dbs, currency_cursor = model.Currency.get_dbs(limit=-1)
+    currency_dbs, currency_cursor = model.Currency.get_dbs(limit=-1, order='name')
     transaction_dbs, transaction_cursor = model.Transaction.get_dbs(user_key=auth.current_user_key(), limit=-1)
     return flask.render_template(
       'welcome.html',

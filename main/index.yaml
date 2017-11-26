@@ -10,3 +10,125 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: Price
+  properties:
+  - name: currency_from_code
+  - name: amount
+
+- kind: Price
+  properties:
+  - name: currency_from_code
+  - name: amount
+    direction: desc
+
+- kind: Price
+  properties:
+  - name: currency_from_code
+  - name: currency_from_name
+
+- kind: Price
+  properties:
+  - name: currency_from_code
+  - name: currency_from_name
+  - name: currency_to_name
+
+- kind: Price
+  properties:
+  - name: currency_from_code
+  - name: currency_from_name
+    direction: desc
+
+- kind: Price
+  properties:
+  - name: currency_from_code
+  - name: currency_to_name
+
+- kind: Price
+  properties:
+  - name: currency_from_code
+  - name: currency_to_name
+    direction: desc
+
+- kind: Price
+  properties:
+  - name: currency_from_code
+  - name: modified
+
+- kind: Price
+  properties:
+  - name: currency_from_code
+  - name: modified
+    direction: desc
+
+- kind: Price
+  properties:
+  - name: currency_from_key
+  - name: currency_to_key
+  - name: currency_from_name
+  - name: currency_to_name
+
+- kind: Price
+  properties:
+  - name: currency_from_name
+  - name: currency_to_name
+
+- kind: Price
+  properties:
+  - name: currency_to_code
+  - name: amount
+
+- kind: Price
+  properties:
+  - name: currency_to_code
+  - name: amount
+    direction: desc
+
+- kind: Price
+  properties:
+  - name: currency_to_code
+  - name: currency_from_name
+
+- kind: Price
+  properties:
+  - name: currency_to_code
+  - name: currency_from_name
+  - name: currency_to_name
+
+- kind: Price
+  properties:
+  - name: currency_to_code
+  - name: currency_from_name
+    direction: desc
+
+- kind: Price
+  properties:
+  - name: currency_to_code
+  - name: currency_to_name
+
+- kind: Price
+  properties:
+  - name: currency_to_code
+  - name: currency_to_name
+    direction: desc
+
+- kind: Price
+  properties:
+  - name: currency_to_code
+  - name: modified
+
+- kind: Price
+  properties:
+  - name: currency_to_code
+  - name: modified
+    direction: desc
+
+- kind: Transaction
+  properties:
+  - name: user_key
+  - name: acquired_amount
+
+- kind: Transaction
+  properties:
+  - name: user_key
+  - name: date
+    direction: desc

@@ -16,11 +16,9 @@
         </span>
       </a> &nbsp;
       # for currency_db in currency_dbs
-        <a href="{{url_for('exchange', code=currency_db.code)}}">
-          <span class="label {{'label-info' if code == currency_db.code  else 'label-default'}}">
-            {{currency_db.name}} <small>({{currency_db.code}})</small>
-          </span>
-        </a> &nbsp;
+        <a href="{{url_for('exchange', code=currency_db.code)}}"><span class="label {{'label-info' if code == currency_db.code  else 'label-default'}}">
+          {{utils.currency_icon(currency_db.code)}} {{currency_db.name}} <small>({{currency_db.code}})</small>
+        </span></a> &nbsp;
       # endfor
     </p>
 
@@ -50,6 +48,8 @@
         # endfor
       </tbody>
     </table>
+
+    <p class="text-muted text-right">{{_('All data is fetched from ')}} <a href="https://cryptocompare.com">CryptoCompare</a>.</p>
   </div>
 
   {{utils.next_link(next_url)}}
