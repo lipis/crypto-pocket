@@ -184,6 +184,11 @@ def update_price(price_db):
 
 
 def price_upgrade(price_cursor=None):
+  currency_dbs, currency_cursor, currency_more = (
+    model.Currency.query()
+    .fetch_page(-1)
+  )
+
   price_dbs, price_cursor, price_more = (
     model.Price.query()
     .fetch_page(config.DEFAULT_DB_LIMIT, start_cursor=price_cursor)

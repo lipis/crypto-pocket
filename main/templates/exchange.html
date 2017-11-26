@@ -10,10 +10,17 @@
     <h1>{{title}}</h1>
 
     <p class="lead">
+      <a href="{{url_for('exchange')}}">
+        <span class="label {{'label-info' if not code else 'label-warning'}}">
+          All
+        </span>
+      </a> &nbsp;
       # for currency_db in currency_dbs
-        <span class="label label-success">
-          {{currency_db.name}} <small>({{currency_db.code}})</small>
-        </span>&nbsp;
+        <a href="{{url_for('exchange', code=currency_db.code)}}">
+          <span class="label {{'label-info' if code == currency_db.code  else 'label-default'}}">
+            {{currency_db.name}} <small>({{currency_db.code}})</small>
+          </span>
+        </a> &nbsp;
       # endfor
     </p>
 

@@ -15,7 +15,8 @@
           <a href="{{url_for('welcome')}}"><span class="fa fa-fw fa-arrows-h"></span> Transactions</a>
         </li>
         <li class="{{'active' if html_class == 'price-list'}}">
-          <a href="{{url_for('exchange')}}"><span class="fa fa-fw fa-bitcoin"></span> {{_('Exchange')}}</a>
+          # set user_currency_db = current_user.user_db.currency_key.get() if current_user.user_db.currency_key else None
+          <a href="{{url_for('exchange', code=user_currency_db.code if user_currency_db else None)}}"><span class="fa fa-fw fa-bitcoin"></span> {{_('Exchange')}}</a>
         </li>
         # include 'bit/contact_menu.html'
       </ul>
