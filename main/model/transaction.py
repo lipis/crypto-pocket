@@ -41,12 +41,18 @@ class Transaction(model.Base):
     return crypto.get_exchange_rate_by_keys(self.acquired_currency_key, self.spent_currency_key)
 
   @ndb.ComputedProperty
-  def profit(self):
+  def profit_amount(self):
     return (self.current_rate - self.acquired_rate) * self.acquired_amount - self.fee
 
   @ndb.ComputedProperty
+  def profit_percentage(self):
+    if self.acquired_rate != 0:
+      return (self.current_rate / self.acquired_rate - 1) * 100
+    return 0
+
+  @ndb.ComputedProperty
   def total(self):
-    return self.profit + self.spent_amount
+    return self.profit_amount + self.spent_amount
 
   @classmethod
   def get_dbs(cls, order=None, **kwargs):

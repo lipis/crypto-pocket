@@ -64,6 +64,12 @@ indexes:
   properties:
   - name: currency_from_key
   - name: currency_to_key
+  - name: amount
+
+- kind: Price
+  properties:
+  - name: currency_from_key
+  - name: currency_to_key
   - name: currency_from_name
   - name: currency_to_name
 
@@ -120,6 +126,12 @@ indexes:
   properties:
   - name: currency_to_code
   - name: modified
+    direction: desc
+
+- kind: Transaction
+  properties:
+  - name: user_key
+  - name: spent_amount
     direction: desc
 
 - kind: Transaction
@@ -130,5 +142,43 @@ indexes:
 - kind: Transaction
   properties:
   - name: user_key
+  - name: acquired_amount
+    direction: desc
+
+- kind: Transaction
+  properties:
+  - name: user_key
   - name: date
     direction: desc
+
+- kind: Transaction
+  properties:
+  - name: user_key
+  - name: profit_amount
+
+- kind: Transaction
+  properties:
+  - name: user_key
+  - name: profit_amount
+    direction: desc
+
+- kind: Transaction
+  properties:
+  - name: user_key
+  - name: profit_percentage
+
+- kind: Transaction
+  properties:
+  - name: user_key
+  - name: profit_percentage
+    direction: desc
+
+- kind: Transaction
+  properties:
+  - name: user_key
+  - name: spent_amount
+
+- kind: Transaction
+  properties:
+  - name: user_key
+  - name: total

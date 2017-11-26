@@ -148,6 +148,14 @@ def admin_auth():
 ###############################################################################
 # Price
 ###############################################################################
+@app.route('/admin/transaction/upgrade/')
+@auth.admin_required
+def admin_transaction_upgrade():
+  task.transaction_upgrade()
+  flask.flash('Upgrading transaction model.', category='success')
+  return flask.redirect(flask.url_for('admin'))
+
+
 @app.route('/admin/price/upgrade/')
 @auth.admin_required
 def admin_price_upgrade():

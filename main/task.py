@@ -183,6 +183,19 @@ def update_price(price_db):
     flask.abort(result.status_code)
 
 
+def transaction_upgrade(transaction_cursor=None):
+  transaction_dbs, transaction_cursor, transaction_more = (
+    model.Transaction.query()
+    .fetch_page(config.DEFAULT_DB_LIMIT, start_cursor=transaction_cursor)
+  )
+
+  if transaction_dbs:
+    ndb.put_multi(transaction_dbs)
+
+  if transaction_cursor:
+    deferred.defer(transaction_upgrade, transaction_cursor)
+
+
 def price_upgrade(price_cursor=None):
   currency_dbs, currency_cursor, currency_more = (
     model.Currency.query()

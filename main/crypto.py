@@ -14,12 +14,14 @@ def get_exchange_rate_by_keys(currency_from_key, currency_to_key):
     limit=1,
     currency_from_key=currency_from_key,
     currency_to_key=currency_to_key,
+    order='amount',
   )
   if not price_dbs:
     price_dbs, price_cursor = model.Price.get_dbs(
       limit=1,
       currency_from_key=currency_to_key,
       currency_to_key=currency_from_key,
+    order='amount',
     )
     invert = True
 
