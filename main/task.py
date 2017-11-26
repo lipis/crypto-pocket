@@ -3,12 +3,14 @@
 import json
 import logging
 
-import flask
 from google.appengine.api import mail
 from google.appengine.api import urlfetch
 from google.appengine.ext import deferred
+from google.appengine.ext import ndb
+import flask
 
 import config
+import model
 import util
 
 
@@ -179,3 +181,16 @@ def update_price(price_db):
       flask.abort(404)
   else:
     flask.abort(result.status_code)
+
+
+def price_upgrade(price_cursor=None):
+  price_dbs, price_cursor, price_more = (
+    model.Price.query()
+    .fetch_page(config.DEFAULT_DB_LIMIT, start_cursor=price_cursor)
+  )
+
+  if price_dbs:
+    ndb.put_multi(price_dbs)
+
+  if price_cursor:
+    deferred.defer(price_upgrade, price_cursor)

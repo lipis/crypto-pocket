@@ -14,11 +14,8 @@
         <li class="{{'active' if html_class == 'transaction-list'}}">
           <a href="{{url_for('welcome')}}"><span class="fa fa-fw fa-arrows-h"></span> Transactions</a>
         </li>
-        <li class="{{'active' if html_class == 'currency-list'}}">
-          <a href="{{url_for('currency_list')}}"><span class="fa fa-fw fa-dollar"></span> Currencies</a>
-        </li>
         <li class="{{'active' if html_class == 'price-list'}}">
-          <a href="{{url_for('price_list')}}"><span class="fa fa-fw fa-bitcoin"></span> Prices</a>
+          <a href="{{url_for('exchange')}}"><span class="fa fa-fw fa-bitcoin"></span> {{_('Exchange')}}</a>
         </li>
         # include 'bit/contact_menu.html'
       </ul>

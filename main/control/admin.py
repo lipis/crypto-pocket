@@ -9,6 +9,7 @@ import config
 import i18n
 import model
 import util
+import task
 
 from main import app
 
@@ -142,3 +143,14 @@ def admin_auth():
     form=form,
     api_url=flask.url_for('api.admin.config'),
   )
+
+
+###############################################################################
+# Price
+###############################################################################
+@app.route('/admin/price/upgrade/')
+@auth.admin_required
+def admin_price_upgrade():
+  task.price_upgrade()
+  flask.flash('Upgrading price model.', category='success')
+  return flask.redirect(flask.url_for('admin'))

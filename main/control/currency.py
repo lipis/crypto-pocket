@@ -14,40 +14,6 @@ from main import app
 
 
 ###############################################################################
-# List
-###############################################################################
-@app.route('/currency/')
-def currency_list():
-  currency_dbs, currency_cursor = model.Currency.get_dbs()
-  return flask.render_template(
-    'currency/currency_list.html',
-    html_class='currency-list',
-    title='Currency List',
-    currency_dbs=currency_dbs,
-    next_url=util.generate_next_url(currency_cursor),
-    api_url=flask.url_for('api.currency.list'),
-  )
-
-
-###############################################################################
-# View
-###############################################################################
-@app.route('/currency/<int:currency_id>/')
-def currency_view(currency_id):
-  currency_db = model.Currency.get_by_id(currency_id)
-  if not currency_db:
-    flask.abort(404)
-
-  return flask.render_template(
-    'currency/currency_view.html',
-    html_class='currency-view',
-    title=currency_db.name,
-    currency_db=currency_db,
-    api_url=flask.url_for('api.currency', currency_key=currency_db.key.urlsafe() if currency_db.key else ''),
-  )
-
-
-###############################################################################
 # Admin List
 ###############################################################################
 @app.route('/admin/currency/')

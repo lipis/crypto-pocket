@@ -20,10 +20,33 @@ class Price(model.Base):
     return '%.4f %s' % (self.amount, self.currency_to_key.get().code)
 
   @ndb.ComputedProperty
+  def currency_from_code(self):
+    return self.currency_from_key.get().code
+
+  @ndb.ComputedProperty
+  def currency_to_code(self):
+    return self.currency_to_key.get().code
+
+  @ndb.ComputedProperty
+  def currency_from_name(self):
+    return self.currency_from_key.get().name
+
+  @ndb.ComputedProperty
+  def currency_to_name(self):
+    return self.currency_to_key.get().name
+
+  @ndb.ComputedProperty
   def amount_invert(self):
     if self.amount != 0:
       return 1.0 / self.amount
     return 1
+
+  @classmethod
+  def get_dbs(cls, order=None, **kwargs):
+    return super(Price, cls).get_dbs(
+      order=order or util.param('order') or 'currency_from_name,currency_to_name',
+      **kwargs
+    )
 
   FIELDS = {
     'currency_from_key': fields.Key,

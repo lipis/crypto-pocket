@@ -133,7 +133,7 @@
 
 
 # macro currency(amount, currency)
-  {{"{:,.4f} {}".format(amount, currency or '')}}
+  {{'{:,.4f}'.format(amount)}} <small>{{currency or ''}}</small>
 # endmacro
 
 # macro amount_color(amount, positive=True)

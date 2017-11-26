@@ -14,40 +14,6 @@ from main import app
 
 
 ###############################################################################
-# List
-###############################################################################
-@app.route('/price/')
-def price_list():
-  price_dbs, price_cursor = model.Price.get_dbs()
-  return flask.render_template(
-    'price/price_list.html',
-    html_class='price-list',
-    title='Price List',
-    price_dbs=price_dbs,
-    next_url=util.generate_next_url(price_cursor),
-    api_url=flask.url_for('api.price.list'),
-  )
-
-
-###############################################################################
-# View
-###############################################################################
-@app.route('/price/<int:price_id>/')
-def price_view(price_id):
-  price_db = model.Price.get_by_id(price_id)
-  if not price_db:
-    flask.abort(404)
-
-  return flask.render_template(
-    'price/price_view.html',
-    html_class='price-view',
-    title='Price',
-    price_db=price_db,
-    api_url=flask.url_for('api.price', price_key=price_db.key.urlsafe() if price_db.key else ''),
-  )
-
-
-###############################################################################
 # Admin List
 ###############################################################################
 @app.route('/admin/price/')
