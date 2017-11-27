@@ -21,7 +21,7 @@ def get_exchange_rate_by_keys(currency_from_key, currency_to_key):
       limit=1,
       currency_from_key=currency_to_key,
       currency_to_key=currency_from_key,
-    order='amount',
+      order='amount',
     )
     invert = True
 

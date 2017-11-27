@@ -13,6 +13,7 @@ try:
   from google.appengine.api import app_identity
 
   APPLICATION_ID = app_identity.get_application_id()
+  APPLICATION_NAME = 'cryptopocket.io'
 except (ImportError, AttributeError):
   pass
 else:

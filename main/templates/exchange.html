@@ -12,7 +12,7 @@
     <p class="lead">
       <a href="{{url_for('exchange')}}">
         <span class="label {{'label-info' if not code else 'label-warning'}}">
-          All
+          {{_('All')}}
         </span>
       </a> &nbsp;
       # for currency_db in currency_dbs
@@ -34,11 +34,18 @@
         </tr>
       </thead>
       <tbody>
+        # set user_currency_db = current_user.user_db.currency_key.get() if current_user.user_db.currency_key else None
         # for price_db in price_dbs
-          <tr>
-            <td>{{price_db.currency_from_key.get().name}} <span class="text-muted pull-right">{{price_db.currency_from_key.get().code}}</span></td>
-            <td>{{price_db.currency_to_key.get().name}} <span class="text-muted pull-right">{{price_db.currency_to_key.get().code}}</span></td>
-            <td class="text-right">{{utils.currency(price_db.amount, price_db.currency_to_key.get().code)}}</td>
+          # set currency_from_db = price_db.currency_from_key.get()
+          # set currency_to_db = price_db.currency_to_key.get()
+          <tr class="{{'text-strong' if user_currency_db and user_currency_db.code in price_db.code and code != user_currency_db.code}}">
+            <td>
+              <span class="{{'text-strong' if code == currency_from_db.code}}">{{currency_from_db.name}} <span class="text-muted pull-right">{{currency_from_db.code}}</span></span>
+            </td>
+            <td>
+              <span class="{{'text-strong' if code == currency_to_db.code}}">{{currency_to_db.name}} <span class="text-muted pull-right">{{currency_to_db.code}}</span></span>
+            </td>
+            <td class="text-right">{{utils.currency(price_db.amount, currency_to_db.code)}}</td>
             <td>
               <time datetime="{{price_db.modified}}">
                 {{price_db.modified.strftime('%Y-%m-%d')}}

@@ -131,12 +131,6 @@ indexes:
 - kind: Transaction
   properties:
   - name: user_key
-  - name: spent_amount
-    direction: desc
-
-- kind: Transaction
-  properties:
-  - name: user_key
   - name: acquired_amount
 
 - kind: Transaction
@@ -181,4 +175,16 @@ indexes:
 - kind: Transaction
   properties:
   - name: user_key
+  - name: spent_amount
+    direction: desc
+
+- kind: Transaction
+  properties:
+  - name: user_key
   - name: total
+
+- kind: Transaction
+  properties:
+  - name: user_key
+  - name: total
+    direction: desc

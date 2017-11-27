@@ -170,7 +170,7 @@ def update_price_task(price_db):
 def update_price(price_db):
   code_from = price_db.currency_from_key.get().code
   code_to = price_db.currency_to_key.get().code
-  result = urlfetch.fetch('https://min-api.cryptocompare.com/data/price?fsym=%s&tsyms=%s' % (code_from, code_to))
+  result = urlfetch.fetch('https://min-api.cryptocompare.com/data/price?fsym=%s&tsyms=%s&extraParams=%s' % (code_from, code_to, config.APPLICATION_NAME))
   if result.status_code == 200:
     content = json.loads(result.content)
 
@@ -183,6 +183,9 @@ def update_price(price_db):
     flask.abort(result.status_code)
 
 
+###############################################################################
+# Admin Related
+###############################################################################
 def transaction_upgrade(transaction_cursor=None):
   transaction_dbs, transaction_cursor, transaction_more = (
     model.Transaction.query()
@@ -197,11 +200,6 @@ def transaction_upgrade(transaction_cursor=None):
 
 
 def price_upgrade(price_cursor=None):
-  currency_dbs, currency_cursor, currency_more = (
-    model.Currency.query()
-    .fetch_page(-1)
-  )
-
   price_dbs, price_cursor, price_more = (
     model.Price.query()
     .fetch_page(config.DEFAULT_DB_LIMIT, start_cursor=price_cursor)
@@ -212,3 +210,47 @@ def price_upgrade(price_cursor=None):
 
   if price_cursor:
     deferred.defer(price_upgrade, price_cursor)
+
+
+def price_exchange():
+  currency_dbs = model.Currency.query().fetch()
+
+  found = {}
+  for currency_from_db in currency_dbs:
+    for currency_to_db in currency_dbs:
+      if currency_from_db.key == currency_to_db.key:
+        continue
+
+      code = ''.join(sorted([currency_from_db.code, currency_to_db.code]))
+      if code in found:
+        continue
+
+      found[code] = True
+      price_db = model.Price.get_by('code', code)
+      if price_db:
+        continue
+
+      price_db = model.Price(currency_from_key=currency_from_db.key, currency_to_key=currency_to_db.key)
+      price_db.put()
+
+
+def price_normalize():
+  price_dbs = model.Price.query().order(model.Price.code).fetch()
+
+  for index, price_db in enumerate(list(price_dbs)):
+    if index == 0:
+      continue
+
+    if price_db.code == price_dbs[index - 1].code:
+      price_db.key.delete()
+
+  updated_dbs = []
+
+  for price_db in price_dbs:
+    if price_db.amount and price_db.amount < 1:
+      [price_db.currency_from_key, price_db.currency_to_key] = [price_db.currency_to_key, price_db.currency_from_key]
+      price_db.amount = 0
+      updated_dbs.append(price_db)
+
+  if updated_dbs:
+    ndb.put_multi(updated_dbs)

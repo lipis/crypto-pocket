@@ -162,3 +162,19 @@ def admin_price_upgrade():
   task.price_upgrade()
   flask.flash('Upgrading price model.', category='success')
   return flask.redirect(flask.url_for('admin'))
+
+
+@app.route('/admin/price/exchange/')
+@auth.admin_required
+def admin_price_exchange():
+  task.price_exchange()
+  flask.flash('Upgrading price model.', category='success')
+  return flask.redirect(flask.url_for('admin'))
+
+
+@app.route('/admin/price/normalize/')
+@auth.admin_required
+def admin_price_normalize():
+  task.price_normalize()
+  flask.flash('Upgrading price model.', category='success')
+  return flask.redirect(flask.url_for('admin'))

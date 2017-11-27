@@ -16,6 +16,10 @@ class Price(model.Base):
   amount = ndb.FloatProperty(default=0, verbose_name=_(u'Amount'))
 
   @ndb.ComputedProperty
+  def code(self):
+    return '%s%s' % tuple(sorted([self.currency_from_key.get().code, self.currency_to_key.get().code]))
+
+  @ndb.ComputedProperty
   def amount_currency(self):
     return '%.4f %s' % (self.amount, self.currency_to_key.get().code)
 
