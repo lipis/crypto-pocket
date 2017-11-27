@@ -57,7 +57,7 @@ class Transaction(model.Base):
   @classmethod
   def get_dbs(cls, order=None, **kwargs):
     return super(Transaction, cls).get_dbs(
-      order=order or util.param('order') or '-date',
+      order=order or util.param('order') or '-profit_percentage',
       **kwargs
     )
 
