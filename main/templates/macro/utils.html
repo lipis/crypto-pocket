@@ -133,7 +133,18 @@
 
 
 # macro currency(amount, currency)
-  {{'{:,.4f}'.format(amount)}} <small>{{currency or ''}}</small>
+  # if amount | abs < 0.0001
+    {{'{:,.7f}'.format(amount)}} <small>{{currency or ''}}</small>
+  # elif amount | abs < 0.001
+    {{'{:,.6f}'.format(amount)}} <small>{{currency or ''}}</small>
+  # elif amount | abs < 0.01
+    {{'{:,.5f}'.format(amount)}} <small>{{currency or ''}}</small>
+    # elif amount | abs < 0.1
+    {{'{:,.4f}'.format(amount)}} <small>{{currency or ''}}</small>
+  # else
+    {{'{:,.2f}'.format(amount)}} <small>{{currency or ''}}</small>
+  # endif
+
 # endmacro
 
 # macro amount_color(amount, positive=True)

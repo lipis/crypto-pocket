@@ -40,7 +40,7 @@
               # set acquired_currency = transaction_db.acquired_currency_key.get().code
               <td class="text-center">{{utils.currency_icon(acquired_currency)}}</td>
               <td class="text-right">
-                {{'%.2f%%' % transaction_db.profit_percentage}}
+                {{'%.1f%%' % transaction_db.profit_percentage}}
                 # if transaction_db.profit_percentage > 0
                   <span class="fa fa-fw fa-arrow-up"></span>
                 # elif transaction_db.profit_percentage < 0

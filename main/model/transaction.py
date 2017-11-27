@@ -62,15 +62,22 @@ class Transaction(model.Base):
     )
 
   FIELDS = {
-    'user_key': fields.Key,
-    'date': fields.Fixed,
-    'spent_amount': fields.Float,
-    'spent_currency_key': fields.Key,
-    'fee': fields.Float,
     'acquired_amount': fields.Float,
     'acquired_currency_key': fields.Key,
+    'acquired_rate': fields.Float,
+    'acquired': fields.Float,
+    'current_rate': fields.Float,
+    'date': fields.DateTime,
+    'fee': fields.Float,
     'notes': fields.String,
     'platform': fields.String,
+    'profit_amount': fields.Float,
+    'profit_percentage': fields.Float,
+    'spent_amount': fields.Float,
+    'spent_currency_key': fields.Key,
+    'spent': fields.Float,
+    'total': fields.Float,
+    'user_key': fields.Key,
   }
 
   FIELDS.update(model.Base.FIELDS)
