@@ -148,6 +148,14 @@ def admin_auth():
 ###############################################################################
 # Price
 ###############################################################################
+@app.route('/admin/currency/upgrade/')
+@auth.admin_required
+def admin_currency_upgrade():
+  task.currency_upgrade()
+  flask.flash('Upgrading currency model.', category='success')
+  return flask.redirect(flask.url_for('admin'))
+
+
 @app.route('/admin/transaction/upgrade/')
 @auth.admin_required
 def admin_transaction_upgrade():

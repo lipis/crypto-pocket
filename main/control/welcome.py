@@ -16,7 +16,7 @@ from main import app
 @app.route('/')
 def welcome():
   if auth.is_logged_in():
-    currency_dbs, currency_cursor = model.Currency.get_dbs(limit=-1, order='name')
+    currency_dbs, currency_cursor = model.Currency.get_dbs(limit=-1, order='is_crypto,name')
     transaction_dbs, transaction_cursor = model.Transaction.get_dbs(user_key=auth.current_user_key(), limit=-1)
     return flask.render_template(
       'welcome.html',
@@ -39,7 +39,7 @@ def exchange(code=None):
     code = code.upper()
     price_qry = model.Price.query(ndb.OR(model.Price.currency_from_code == code, model.Price.currency_to_code == code))
   price_dbs, price_cursor = model.Price.get_dbs(query=price_qry, limit=-1)
-  currency_dbs, currency_cursor = model.Currency.get_dbs(limit=-1, order='name')
+  currency_dbs, currency_cursor = model.Currency.get_dbs(limit=-1, order='is_crypto,name')
   return flask.render_template(
     'exchange.html',
     html_class='exchange',

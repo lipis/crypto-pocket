@@ -6,6 +6,9 @@
     </a>
     <ul class="dropdown-menu">
       # for currency_db in currency_dbs
+        # if last_currency_db and last_currency_db.is_crypto != currency_db.is_crypto
+          <li class="divider"></li>
+        # endif
         # if user_currency_db and currency_db.key == user_currency_db.key
           <li class="disabled">
             <a tabindex="-1">
@@ -19,6 +22,7 @@
             </a>
           </li>
         # endif
+        # set last_currency_db = currency_db
       # endfor
     </ul>
   </li>

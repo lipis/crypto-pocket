@@ -186,6 +186,19 @@ def update_price(price_db):
 ###############################################################################
 # Admin Related
 ###############################################################################
+def currency_upgrade(currency_cursor=None):
+  currency_dbs, currency_cursor, currency_more = (
+    model.Currency.query()
+    .fetch_page(config.DEFAULT_DB_LIMIT, start_cursor=currency_cursor)
+  )
+
+  if currency_dbs:
+    ndb.put_multi(currency_dbs)
+
+  if currency_cursor:
+    deferred.defer(currency_upgrade, currency_cursor)
+
+
 def transaction_upgrade(transaction_cursor=None):
   transaction_dbs, transaction_cursor, transaction_more = (
     model.Transaction.query()

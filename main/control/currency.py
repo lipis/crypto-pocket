@@ -46,10 +46,9 @@ class CurrencyUpdateAdminForm(flask_wtf.FlaskForm):
     [wtforms.validators.required(), wtforms.validators.length(max=500)],
     filters=[util.strip_filter],
   )
-  symbol = wtforms.StringField(
-    model.Currency.symbol._verbose_name,
-    [wtforms.validators.optional(), wtforms.validators.length(max=500)],
-    filters=[util.strip_filter],
+  is_crypto = wtforms.BooleanField(
+    model.Currency.is_crypto._verbose_name,
+    [wtforms.validators.optional()],
   )
 
 

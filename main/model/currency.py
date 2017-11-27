@@ -13,12 +13,12 @@ import util
 class Currency(model.Base):
   name = ndb.StringProperty(required=True, verbose_name=_(u'Name'))
   code = ndb.StringProperty(required=True, verbose_name=_(u'Code'))
-  symbol = ndb.StringProperty(default='', verbose_name=_(u'Symbol'))
+  is_crypto = ndb.BooleanProperty(default=True, verbose_name=_(u'Is Crypto'))
 
   @classmethod
   def get_dbs(cls, order=None, **kwargs):
     return super(Currency, cls).get_dbs(
-      order=order or util.param('order') or 'name',
+      order=order or util.param('order') or 'is_crypt,name',
       **kwargs
     )
 
@@ -41,7 +41,7 @@ class Currency(model.Base):
   FIELDS = {
     'name': fields.String,
     'code': fields.String,
-    'symbol': fields.String,
+    'is_crypto': fields.Boolean,
   }
 
   FIELDS.update(model.Base.FIELDS)

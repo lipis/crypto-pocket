@@ -20,7 +20,7 @@
         <tr class="text-nowrap">
           <th class="col-xs-1">{{utils.order_by_link('name', _('Name'))}}</th>
           <th class="col-xs-1">{{utils.order_by_link('code', _('Code'))}}</th>
-          <th class="col-xs-1">{{utils.order_by_link('symbol', _('Symbol'))}}</th>
+          <th class="col-xs-1 text-center">{{utils.order_by_link('is_crypto', _('Is Crypto'))}}</th>
           <th class="col-xs-1">{{utils.order_by_link('modified', 'Modified')}}<br><small>{{utils.order_by_link('created', 'Created')}}</small></th>
         </tr>
       </thead>
@@ -29,7 +29,13 @@
           <tr class="row-link" id="{{currency_db.key.urlsafe()}}" data-href="{{url_for('admin_currency_update', currency_id=currency_db.key.id())}}">
             <td>{{currency_db.name}}</td>
             <td>{{currency_db.code}}</td>
-            <td>{{currency_db.symbol}}</td>
+            <td class="text-center">
+              # if currency_db.is_crypto
+                <span class="fa fa-fw fa-check"></span>
+              # else
+                <span class="fa fa-fw fa-minus"></span>
+              # endif
+            </td>
             <td>
               <time datetime="{{currency_db.modified}}">
                 {{currency_db.modified.strftime('%Y-%m-%d')}}

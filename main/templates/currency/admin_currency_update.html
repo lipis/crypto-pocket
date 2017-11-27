@@ -10,7 +10,7 @@
         {{form.csrf_token}}
         {{forms.text_field(form.name, autofocus=True)}}
         {{forms.text_field(form.code)}}
-        {{forms.text_field(form.symbol)}}
+        {{forms.checkbox_field(form.is_crypto)}}
         <button type="submit" class="btn btn-primary btn-block btn-loading" {{forms.data_loading_text()}}>
           # if currency_db.key
             {{_('Update')}}

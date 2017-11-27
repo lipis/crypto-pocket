@@ -10,15 +10,17 @@
     <h1>{{title}}</h1>
 
     <p class="lead">
-      <a href="{{url_for('exchange')}}">
-        <span class="label {{'label-info' if not code else 'label-warning'}}">
-          {{_('All')}}
-        </span>
-      </a> &nbsp;
+      <a href="{{url_for('exchange')}}"><span class="label {{'label-info' if not code else 'label-warning'}}">
+        {{_('All')}}
+      </span></a> &nbsp;
       # for currency_db in currency_dbs
+        # if last_currency_db and last_currency_db.is_crypto != currency_db.is_crypto
+          <br>
+        # endif
         <a href="{{url_for('exchange', code=currency_db.code)}}"><span class="label {{'label-info' if code == currency_db.code  else 'label-default'}}">
           {{utils.currency_icon(currency_db.code)}} {{currency_db.name}} <small>({{currency_db.code}})</small>
         </span></a> &nbsp;
+        # set last_currency_db = currency_db
       # endfor
     </p>
 
