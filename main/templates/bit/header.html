@@ -12,7 +12,7 @@
     <nav class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
         <li class="{{'active' if html_class == 'transaction-list'}}">
-          <a href="{{url_for('welcome')}}"><span class="fa fa-fw fa-arrows-h"></span> Transactions</a>
+          <a href="{{url_for('welcome')}}"><span class="fa fa-fw fa-arrows-h"></span> {{_('Investements')}}</a>
         </li>
         <li class="{{'active' if html_class == 'price-list'}}">
           # set user_currency_db = current_user.user_db.currency_key.get() if current_user.user_db.currency_key else None

@@ -9,7 +9,7 @@
       # if transaction_db.key
         {{utils.back_link('Back', 'transaction_view', transaction_id=transaction_db.key.id())}}
       # else
-        {{utils.back_link('Back', 'transaction_list')}}
+        {{utils.back_link('Back', 'welcome')}}
       # endif
       {{title}}
     </h1>
@@ -39,5 +39,12 @@
         </button>
       </form>
     </div>
+    # if transaction_db.key
+      <div class="col-sm-6">
+        <form class="pull-right" action="{{url_for('transaction_delete', transaction_id=transaction_db.key.id())}}" method="POST">
+          <button class="btn btn-sm btn-danger btn-confirm" data-message="{{_('Are you sure you want to delete?')}}">{{_('Delete')}}</button>
+        </form>
+      </div>
+    # endif
   </div>
 # endblock

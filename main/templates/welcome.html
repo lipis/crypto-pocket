@@ -16,7 +16,7 @@
   # if current_user.id > 0
     <p class="text-center">
       <a class="btn btn-primary" href="{{url_for('transaction_update')}}">
-        <fa class="fa fa-plus fa-fw"></fa> Add Transaction
+        <fa class="fa fa-plus fa-fw"></fa> {{_('Add investement')}}
       </a>
     </p>
     <div class="table-responsive {{'hide' if not transaction_dbs|count}}">

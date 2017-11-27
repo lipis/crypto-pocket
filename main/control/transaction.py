@@ -56,8 +56,8 @@ class TransactionUpdateForm(flask_wtf.FlaskForm):
   )
 
 
-@app.route('/transaction/create/', methods=['GET', 'POST'])
-@app.route('/transaction/<int:transaction_id>/update/', methods=['GET', 'POST'])
+@app.route('/investment/create/', methods=['GET', 'POST'])
+@app.route('/investment/<int:transaction_id>/update/', methods=['GET', 'POST'])
 @auth.login_required
 def transaction_update(transaction_id=0):
   if transaction_id:
@@ -96,7 +96,7 @@ def transaction_update(transaction_id=0):
 
   return flask.render_template(
     'transaction/transaction_update.html',
-    title='%s' % 'Transaction' if transaction_id else 'New Transaction',
+    title='%s' % 'Investment' if transaction_id else 'New investment',
     html_class='transaction-update',
     form=form,
     transaction_db=transaction_db,
@@ -123,7 +123,7 @@ def transaction_list():
 ###############################################################################
 # View
 ###############################################################################
-@app.route('/transaction/<int:transaction_id>/')
+@app.route('/investment/<int:transaction_id>/')
 @auth.login_required
 def transaction_view(transaction_id):
   transaction_db = model.Transaction.get_by_id(transaction_id)
@@ -133,7 +133,7 @@ def transaction_view(transaction_id):
   return flask.render_template(
     'transaction/transaction_view.html',
     html_class='transaction-view',
-    title='Transaction',
+    title='Investment',
     transaction_db=transaction_db,
     api_url=flask.url_for('api.transaction', transaction_key=transaction_db.key.urlsafe() if transaction_db.key else ''),
   )
@@ -203,6 +203,19 @@ def admin_transaction_update(transaction_id=0):
     back_url_for='admin_transaction_list',
     api_url=flask.url_for('api.admin.transaction', transaction_key=transaction_db.key.urlsafe() if transaction_db.key else ''),
   )
+
+
+###############################################################################
+# Delete
+###############################################################################
+@app.route('/investment/<int:transaction_id>/delete/', methods=['POST'])
+@auth.login_required
+def transaction_delete(transaction_id):
+  transaction_db = model.Transaction.get_by_id(transaction_id)
+  if transaction_db and auth.current_user_key() == transaction_db.user_key:
+    transaction_db.key.delete()
+    flask.flash('Investement deleted.', category='success')
+  return flask.redirect(flask.url_for('welcome'))
 
 
 ###############################################################################
