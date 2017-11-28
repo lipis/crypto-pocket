@@ -31,7 +31,7 @@
           <th class="col-xs-4 text-center">{{utils.order_by_link('currency_to_name', _('To'))}}</th>
           <th class="text-center"></th>
           <th class="col-xs-2 text-center">{{utils.order_by_link('amount', _('Amount'))}}</th>
-          <th class="col-xs-2 text-center"></th>
+          <th class="col-xs-2 text-center">{{utils.order_by_link('amount_open_percentage', _('Daily change'))}}</th>
         </tr>
       </thead>
       <tbody>
@@ -52,13 +52,7 @@
             <td class="text-right">{{utils.currency(price_db.amount, currency_to_db.code)}}</td>
             <td class="text-right text-nowrap {{'text-success' if price_db.amount_open_percentage >= 0 else 'text-danger'}}">
               {{'{:,.2f}'.format(price_db.amount_open_percentage)}}%
-              # if price_db.amount_open_percentage > 0
-                <span class="fa fa-fw fa-arrow-up"></span>
-              # elif price_db.amount_open_percentage < 0
-                <span class="fa fa-fw fa-arrow-down"></span>
-              # else
-                <span class="fa fa-fw fa-minus"></span>
-              # endif
+              {{utils.rate_arrow(price_db.amount_open_percentage)}}
             </td>
           </tr>
         # endfor

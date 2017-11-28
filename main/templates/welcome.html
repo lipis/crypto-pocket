@@ -15,38 +15,33 @@
 # block content
   # set user_currency_db = current_user.user_db.currency_key.get() if current_user.user_db.currency_key else None
   # if current_user.id > 0
+    # if transaction_dbs
+      # set profit_user_percentage = (total_profit / (total_net_worth - total_profit)) * 100 if (total_net_worth - total_profit) != 0 else 0
+      <div class="row text-center {{'text-success' if profit_user_percentage >= 0 else 'text-danger'}}">
+        <div class="col-sm-4">
+          <h5>&nbsp;</h5>
+          <h2>
+            {{utils.rate_arrow(profit_user_percentage)}}
+            {{'{:,.1f}'.format(profit_user_percentage)}}%
+            {{utils.rate_arrow(profit_user_percentage)}}
+          </h2>
+        </div>
+        <div class="col-sm-4">
+          <h5>{{_('Profit')}}</h5>
+          <h2>{{utils.currency(total_profit, user_currency_db.code)}}</h2>
+        </div>
+        <div class="col-sm-4">
+          <h5>{{_('Net worth')}}</h5>
+          <h2>{{utils.currency(total_net_worth, user_currency_db.code)}}</h2>
+        </div>
+      </div>
+      <hr>
+    # endif
     <p class="text-center">
       <a class="btn btn-primary" href="{{url_for('transaction_update')}}">
         <fa class="fa fa-plus fa-fw"></fa> {{_('Add Investment')}}
       </a>
     </p>
-    <hr>
-    # set profit_user_percentage = (total_profit / (total_net_worth - total_profit)) * 100 if (total_net_worth - total_profit) != 0 else 0
-    <div class="row text-center {{'text-success' if profit_user_percentage >= 0 else 'text-danger'}}">
-      <div class="col-sm-4">
-        <h5>&nbsp;</h5>
-        <h2>
-          # if profit_user_percentage > 0
-            <span class="fa fa-fw fa-arrow-up"></span>
-          # elif profit_user_percentage < 0
-            <span class="fa fa-fw fa-arrow-down"></span>
-          # else
-            <span class="fa fa-fw fa-minus"></span>
-          # endif
-          {{'{:,.1f}'.format(profit_user_percentage)}}%
-        </h2>
-      </div>
-      <div class="col-sm-4">
-        <h5>{{_('Profit')}}</h5>
-        <h2>{{utils.currency(total_profit, user_currency_db.code)}}</h2>
-      </div>
-      <div class="col-sm-4">
-        <h5>{{_('Net worth')}}</h5>
-        <h2>{{utils.currency(total_net_worth, user_currency_db.code)}}</h2>
-      </div>
-    </div>
-    <hr>
-
     <div class="row">
       # for transaction_db in transaction_dbs
         <div class="col-sm-6 col-md-4">
@@ -57,13 +52,7 @@
               <div class="panel-title text-nowrap">
                 <div class="row">
                   <div class="col-xs-6">
-                    # if transaction_db.profit_percentage > 0
-                      <span class="fa fa-fw fa-arrow-up"></span>
-                    # elif transaction_db.profit_percentage < 0
-                      <span class="fa fa-fw fa-arrow-down"></span>
-                    # else
-                      <span class="fa fa-fw fa-minus"></span>
-                    # endif
+                    {{utils.rate_arrow(transaction_db.profit_percentage)}}
                     {{utils.currency_icon(acquired_currency_db.code)}}
                     {{acquired_currency_db.name}}
                     <br>
@@ -100,7 +89,7 @@
               </div>
               <div class="text-muted">
                 <span class="pull-right">{{utils.currency(transaction_db.acquired_rate, spent_currency_db.code)}}</span>
-                {{_('Then rate')}}
+                {{_('Initial investment rate')}}
               </div>
               <hr>
               <div>

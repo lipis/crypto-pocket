@@ -159,3 +159,14 @@
     <span class="fa cc {{code}}-alt"></span>
   # endif
 # endmacro
+
+
+# macro rate_arrow(rate)
+  # if rate > 0
+    <span class="fa fa-fw fa-arrow-up"></span>
+  # elif rate < 0
+    <span class="fa fa-fw fa-arrow-down"></span>
+  # else
+    <span class="fa fa-fw fa-minus"></span>
+  # endif
+# endmacro

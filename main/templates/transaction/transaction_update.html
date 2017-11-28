@@ -15,18 +15,18 @@
     </h1>
   </div>
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-md-6">
       <form method="POST" action="." novalidate>
         {{form.csrf_token}}
         {{forms.date_field(form.date, autofocus=True)}}
         <div class="row">
-          <div class="col-xs-3">{{forms.number_field(form.spent_amount)}}</div>
-          <div class="col-xs-3">{{forms.number_field(form.fee)}}</div>
-          <div class="col-xs-6">{{forms.select_field(form.spent_currency_key)}}</div>
+          <div class="col-xs-4">{{forms.number_field(form.spent_amount)}}</div>
+          <div class="col-xs-4">{{forms.number_field(form.fee)}}</div>
+          <div class="col-xs-4">{{forms.select_field(form.spent_currency_key)}}</div>
         </div>
         <div class="row">
-          <div class="col-xs-6">{{forms.number_field(form.acquired_amount)}}</div>
-          <div class="col-xs-6">{{forms.select_field(form.acquired_currency_key)}}</div>
+          <div class="col-xs-8">{{forms.number_field(form.acquired_amount)}}</div>
+          <div class="col-xs-4">{{forms.select_field(form.acquired_currency_key)}}</div>
         </div>
         {{forms.textarea_field(form.notes)}}
         {{forms.text_field(form.platform)}}

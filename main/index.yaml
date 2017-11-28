@@ -18,6 +18,17 @@ indexes:
 - kind: Price
   properties:
   - name: currency_from_code
+  - name: amount_open_percentage
+
+- kind: Price
+  properties:
+  - name: currency_from_code
+  - name: amount_open_percentage
+    direction: desc
+
+- kind: Price
+  properties:
+  - name: currency_from_code
   - name: currency_from_name
   - name: currency_to_name
 
@@ -31,6 +42,17 @@ indexes:
   properties:
   - name: currency_from_name
   - name: currency_to_name
+
+- kind: Price
+  properties:
+  - name: currency_to_code
+  - name: amount_open_percentage
+
+- kind: Price
+  properties:
+  - name: currency_to_code
+  - name: amount_open_percentage
+    direction: desc
 
 - kind: Price
   properties:
