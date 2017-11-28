@@ -24,7 +24,7 @@ class Transaction(model.Base):
 
   @ndb.ComputedProperty
   def spent(self):
-    return self.spent_amount
+    return self.spent_amount + self.fee
 
   @ndb.ComputedProperty
   def acquired(self):
@@ -51,8 +51,34 @@ class Transaction(model.Base):
     return 0
 
   @ndb.ComputedProperty
-  def total(self):
+  def net_worth(self):
     return self.profit_amount + self.spent_amount
+
+  @ndb.ComputedProperty
+  def user_currency_key(self):
+    return self.user_key.get().currency_key or model.Currency.get_by('code', 'USD')
+
+  @ndb.ComputedProperty
+  def user_exchange_rate(self):
+    if self.user_currency_key:
+      return crypto.get_exchange_rate_by_keys(self.spent_currency_key, self.user_currency_key)
+    return 0
+
+  @ndb.ComputedProperty
+  def profit_amount_user(self):
+    return self.profit_amount * self.user_exchange_rate
+
+  @ndb.ComputedProperty
+  def net_worth_user(self):
+    if not self.user_currency_key:
+      return 0
+    return self.net_worth * self.user_exchange_rate
+
+  @ndb.ComputedProperty
+  def profit_percentage_user(self):
+    if self.net_worth_user != 0:
+      return (self.profit_amount_user / self.net_worth_user - 1) * 100
+    return 0
 
   @classmethod
   def get_dbs(cls, order=None, **kwargs):
@@ -69,6 +95,7 @@ class Transaction(model.Base):
     'current_rate': fields.Float,
     'date': fields.DateTime,
     'fee': fields.Float,
+    'net_worth': fields.Float,
     'notes': fields.String,
     'platform': fields.String,
     'profit_amount': fields.Float,
@@ -76,7 +103,6 @@ class Transaction(model.Base):
     'spent_amount': fields.Float,
     'spent_currency_key': fields.Key,
     'spent': fields.Float,
-    'total': fields.Float,
     'user_key': fields.Key,
   }
 

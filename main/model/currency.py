@@ -18,7 +18,7 @@ class Currency(model.Base):
   @classmethod
   def get_dbs(cls, order=None, **kwargs):
     return super(Currency, cls).get_dbs(
-      order=order or util.param('order') or 'is_crypt,name',
+      order=order or util.param('order') or 'is_crypto,name',
       **kwargs
     )
 

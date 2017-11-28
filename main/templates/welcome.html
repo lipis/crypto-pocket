@@ -6,69 +6,114 @@
     <div class="jumbotron">
       <div class="container text-center">
         <h1>{{config.CONFIG_DB.brand_name}}</h1>
-        <p>{{_('Monitor your crypto investments')}}</p>
+        <p>{{_('Track your crypto investments.')}}</p>
       </div>
     </div>
   # endif
 # endblock
 
 # block content
+  # set user_currency_db = current_user.user_db.currency_key.get() if current_user.user_db.currency_key else None
   # if current_user.id > 0
     <p class="text-center">
       <a class="btn btn-primary" href="{{url_for('transaction_update')}}">
-        <fa class="fa fa-plus fa-fw"></fa> {{_('Add investement')}}
+        <fa class="fa fa-plus fa-fw"></fa> {{_('Add Investment')}}
       </a>
     </p>
-    <div class="table-responsive {{'hide' if not transaction_dbs|count}}">
-      <table class="table table-bordered table-hover">
-        <thead>
-          <tr class="text-nowrap">
-            <th class="text-center"></th>
-            <th class="text-center">{{utils.order_by_link('profit_percentage', '%')}}</th>
-            <th class="col-xs-2 text-center">{{utils.order_by_link('acquired_amount', _('Acquired'))}}</th>
-            <th class="col-xs-2 text-center">{{utils.order_by_link('profit_amount', _('Profit'))}}</th>
-            <th class="col-xs-2 text-center">{{utils.order_by_link('total', _('Total'))}}</th>
-            <th class="col-xs-2 text-center">{{utils.order_by_link('spent_amount', _('Spent'))}}</th>
-            <th class="col-xs-1 text-center">{{_('Current Rate')}}<br><small>{{_('Acquired Rate')}}</small></th>
-            <th class="col-xs-2 text-center">{{utils.order_by_link('date', _('Date'))}}</th>
-          </tr>
-        </thead>
-        <tbody>
-          # for transaction_db in transaction_dbs
-            <tr class="row-link text-nowrap {{'text-success' if transaction_db.total > transaction_db.spent_amount else 'text-danger' if transaction_db.current_rate else 'text-muted'}}" id="{{transaction_db.key.urlsafe()}}" data-href="{{url_for('transaction_view', transaction_id=transaction_db.key.id())}}">
-              # set spent_currency = transaction_db.spent_currency_key.get().code
-              # set acquired_currency = transaction_db.acquired_currency_key.get().code
-              <td class="text-center">{{utils.currency_icon(acquired_currency)}}</td>
-              <td class="text-right">
-                {{'%.1f%%' % transaction_db.profit_percentage}}
-                # if transaction_db.profit_percentage > 0
-                  <span class="fa fa-fw fa-arrow-up"></span>
-                # elif transaction_db.profit_percentage < 0
-                  <span class="fa fa-fw fa-arrow-down"></span>
-                # else
-                  <span class="fa fa-fw fa-minus"></span>
-                # endif
-              </td>
-              <td class="text-right">{{utils.currency(transaction_db.acquired, transaction_db.acquired_currency_key.get().code)}}</td>
-              <td class="text-right">{{utils.currency(transaction_db.profit_amount, spent_currency)}}</td>
-              <td class="text-right">{{utils.currency(transaction_db.total, spent_currency)}}</td>
-              <td class="text-right">
-                <div>{{utils.currency(transaction_db.spent, spent_currency)}}</div>
-                # if transaction_db.fee
-                  <small class="text-muted">{{utils.currency(transaction_db.fee, spent_currency)}}</small>
-                # endif
-              </td>
-              <td class="text-right">
-                <div>{{utils.currency(transaction_db.current_rate, spent_currency)}}</div>
-                <small class="text-muted">{{utils.currency(transaction_db.acquired_rate, spent_currency)}}</small>
-              </td>
-              <td class="text-center">{{transaction_db.date.strftime('%d %b %Y')}}</td>
-            </tr>
-          # endfor
-        </tbody>
-      </table>
+    <hr>
+    # set profit_user_percentage = (total_profit / (total_net_worth - total_profit)) * 100 if (total_net_worth - total_profit) != 0 else 0
+    <div class="row text-center {{'text-success' if profit_user_percentage >= 0 else 'text-danger'}}">
+      <div class="col-sm-4">
+        <h5>&nbsp;</h5>
+        <h2>
+          # if profit_user_percentage > 0
+            <span class="fa fa-fw fa-arrow-up"></span>
+          # elif profit_user_percentage < 0
+            <span class="fa fa-fw fa-arrow-down"></span>
+          # else
+            <span class="fa fa-fw fa-minus"></span>
+          # endif
+          {{'{:,.1f}'.format(profit_user_percentage)}}%
+        </h2>
+      </div>
+      <div class="col-sm-4">
+        <h5>{{_('Profit')}}</h5>
+        <h2>{{utils.currency(total_profit, user_currency_db.code)}}</h2>
+      </div>
+      <div class="col-sm-4">
+        <h5>{{_('Net worth')}}</h5>
+        <h2>{{utils.currency(total_net_worth, user_currency_db.code)}}</h2>
+      </div>
     </div>
+    <hr>
 
-    {{utils.next_link(next_url)}}
+    <div class="row">
+      # for transaction_db in transaction_dbs
+        <div class="col-sm-6 col-md-4">
+          # set spent_currency_db = transaction_db.spent_currency_key.get()
+          # set acquired_currency_db = transaction_db.acquired_currency_key.get()
+          <div class="panel {{'panel-success' if transaction_db.net_worth > transaction_db.spent_amount else 'panel-danger' if transaction_db.current_rate else 'panel-default'}}">
+            <div class="panel-heading">
+              <div class="panel-title text-nowrap">
+                <div class="row">
+                  <div class="col-xs-6">
+                    # if transaction_db.profit_percentage > 0
+                      <span class="fa fa-fw fa-arrow-up"></span>
+                    # elif transaction_db.profit_percentage < 0
+                      <span class="fa fa-fw fa-arrow-down"></span>
+                    # else
+                      <span class="fa fa-fw fa-minus"></span>
+                    # endif
+                    {{utils.currency_icon(acquired_currency_db.code)}}
+                    {{acquired_currency_db.name}}
+                    <br>
+                    <span class="lead">{{utils.currency(transaction_db.net_worth_user, user_currency_db.code)}}</span>
+                  </div>
+                  <div class="col-xs-6 text-right">
+                    {{'{:,.1f}'.format(transaction_db.profit_percentage)}}%
+                    <br>
+                    <small>{{utils.currency(transaction_db.acquired, acquired_currency_db.code)}}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-body text-nowrap">
+                <div>
+                  <strong>
+                    <span class="pull-right">{{utils.currency(transaction_db.net_worth, spent_currency_db.code)}}</span>
+                    {{_('Net worth')}}
+                  </strong>
+                </div>
+              <div>
+                <span class="pull-right">{{utils.currency(transaction_db.profit_amount, spent_currency_db.code)}}</span>
+                {{_('Profit')}}
+              </div>
+              <div class="text-muted">
+                <span class="pull-right">{{utils.currency(transaction_db.spent, spent_currency_db.code)}}</span>
+                {{_('Spent')}}
+              </div>
+              <hr>
+              <div>
+                <span class="pull-right">{{utils.currency(transaction_db.current_rate, spent_currency_db.code)}}</span>
+                {{_('Current rate')}}
+              </div>
+              <div class="text-muted">
+                <span class="pull-right">{{utils.currency(transaction_db.acquired_rate, spent_currency_db.code)}}</span>
+                {{_('Then rate')}}
+              </div>
+              <hr>
+              <div>
+                <span class="pull-right">{{transaction_db.date.strftime('%d %b %Y')}}</span>
+                {{_('Invested')}}
+              </div>
+            </div>
+            <div class="panel-footer">
+              <a href="{{url_for('transaction_update', transaction_id=transaction_db.key.id())}}"><span class="fa fa-fw fa-pencil"></span> {{_('Edit')}}</a>
+            </div>
+          </div>
+        </div>
+      # endfor
+    </div>
   # endif
 # endblock

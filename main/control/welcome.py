@@ -18,10 +18,19 @@ def welcome():
   if auth.is_logged_in():
     currency_dbs, currency_cursor = model.Currency.get_dbs(limit=-1, order='is_crypto,name')
     transaction_dbs, transaction_cursor = model.Transaction.get_dbs(user_key=auth.current_user_key(), limit=-1)
+
+    total_profit = 0
+    total_net_worth = 0
+    for transaction_db in transaction_dbs:
+      total_profit += transaction_db.profit_amount_user
+      total_net_worth += transaction_db.net_worth_user
+
     return flask.render_template(
       'welcome.html',
       html_class='welcome',
       transaction_dbs=transaction_dbs,
+      total_profit=total_profit,
+      total_net_worth=total_net_worth,
       currency_dbs=currency_dbs,
       api_url=flask.url_for('api.transaction.list'),
     )

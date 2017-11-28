@@ -448,6 +448,7 @@ def create_user_db(auth_id, name, username, email='', verified=False, **props):
     auth_ids=[auth_id] if auth_id else [],
     verified=verified,
     token=util.uuid(),
+    currency_key=model.Currency.get_by('code', 'USD').key if model.Currency.get_by('code', 'USD') else None,
     **props
   )
   user_db.put()

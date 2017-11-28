@@ -153,11 +153,9 @@
 
 
 # macro currency_icon(code)
-  # if code in ['EUR', 'USD']
+  # if code in ['EUR', 'USD', 'BTC']
     <span class="fa fa-{{code.lower()}}"></span>
   # else
-    <span class="cc {{code}}-alt"></span>
+    <span class="fa cc {{code}}-alt"></span>
   # endif
-
-
 # endmacro

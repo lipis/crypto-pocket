@@ -92,7 +92,7 @@ def transaction_update(transaction_id=0):
       price_db.put()
       task.update_price_task(price_db)
 
-    return flask.redirect(flask.url_for('transaction_view', transaction_id=transaction_db.key.id()))
+    return flask.redirect(flask.url_for('welcome', transaction_id=transaction_db.key.id()))
 
   return flask.render_template(
     'transaction/transaction_update.html',
