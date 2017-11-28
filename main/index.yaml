@@ -29,6 +29,11 @@ indexes:
 
 - kind: Price
   properties:
+  - name: currency_from_name
+  - name: currency_to_name
+
+- kind: Price
+  properties:
   - name: currency_to_code
   - name: currency_from_name
   - name: currency_to_name

@@ -173,9 +173,19 @@ def update_price(price_db):
   result = urlfetch.fetch('https://min-api.cryptocompare.com/data/price?fsym=%s&tsyms=%s&extraParams=%s' % (code_from, code_to, config.APPLICATION_NAME))
   if result.status_code == 200:
     content = json.loads(result.content)
-
     try:
       price_db.amount = content[code_to]
+      price_db.put()
+    except:
+      flask.abort(404)
+  else:
+    flask.abort(result.status_code)
+
+  result = urlfetch.fetch('https://min-api.cryptocompare.com/data/histoday?fsym=%s&tsym=%s&extraParams=%s&limit=1' % (code_from, code_to, config.APPLICATION_NAME))
+  if result.status_code == 200:
+    content = json.loads(result.content)
+    try:
+      price_db.amount_open = content['Data'][0]['open']
       price_db.put()
     except:
       flask.abort(404)

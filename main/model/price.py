@@ -14,6 +14,7 @@ class Price(model.Base):
   currency_from_key = ndb.KeyProperty(kind=model.Currency, required=True, verbose_name=_(u'Currency From'))
   currency_to_key = ndb.KeyProperty(kind=model.Currency, required=True, verbose_name=_(u'Currency To'))
   amount = ndb.FloatProperty(default=0, verbose_name=_(u'Amount'))
+  amount_open = ndb.FloatProperty(default=0, verbose_name=_(u'Amount Close'))
 
   @ndb.ComputedProperty
   def code(self):
@@ -44,6 +45,12 @@ class Price(model.Base):
     if self.amount != 0:
       return 1.0 / self.amount
     return 1
+
+  @ndb.ComputedProperty
+  def amount_open_percentage(self):
+    if self.amount != 0:
+      return ((self.amount - self.amount_open) / self.amount) * 100
+    return 0
 
   @classmethod
   def get_dbs(cls, order=None, **kwargs):
