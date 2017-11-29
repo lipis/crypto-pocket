@@ -5,6 +5,11 @@
 
 # block content
   <div class="page-header">
+    # if transaction_db.key
+      <form class="pull-right" action="{{url_for('transaction_delete', transaction_id=transaction_db.key.id())}}" method="POST">
+        <button class="btn btn-sm btn-danger btn-confirm" data-message="{{_('Are you sure you want to delete?')}}">{{_('Delete')}}</button>
+      </form>
+    # endif
     <h1>
       # if transaction_db.key
         {{utils.back_link('Back', 'transaction_view', transaction_id=transaction_db.key.id())}}
@@ -15,14 +20,25 @@
     </h1>
   </div>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8">
       <form method="POST" action="." novalidate>
         {{form.csrf_token}}
         {{forms.date_field(form.date, autofocus=True)}}
         <div class="row">
-          <div class="col-xs-4">{{forms.number_field(form.spent_amount)}}</div>
-          <div class="col-xs-4">{{forms.number_field(form.fee)}}</div>
-          <div class="col-xs-4">{{forms.select_field(form.spent_currency_key)}}</div>
+          <div class="col-sm-4 col-xs-6">
+            <div class="form-group {{'has-error' if form.spent_amount.errors}}">
+              <div class="ellipsis">
+
+                <label class="control-label" for="spent_amount">{{_(form.spent_amount.label)}}</label>
+                (<a id="fetch" href="#">{{_('fetch')}}</a>)
+              </div>
+              {{form.spent_amount(class='form-control')}}
+              {{forms.field_errors(form.spent_amount)}}
+              {{forms.field_description(form.spent_amount)}}
+            </div>
+          </div>
+          <div class="col-sm-4 col-xs-6">{{forms.number_field(form.fee)}}</div>
+          <div class="col-sm-4">{{forms.select_field(form.spent_currency_key)}}</div>
         </div>
         <div class="row">
           <div class="col-xs-8">{{forms.number_field(form.acquired_amount)}}</div>
@@ -39,12 +55,5 @@
         </button>
       </form>
     </div>
-    # if transaction_db.key
-      <div class="col-sm-6">
-        <form class="pull-right" action="{{url_for('transaction_delete', transaction_id=transaction_db.key.id())}}" method="POST">
-          <button class="btn btn-sm btn-danger btn-confirm" data-message="{{_('Are you sure you want to delete?')}}">{{_('Delete')}}</button>
-        </form>
-      </div>
-    # endif
   </div>
 # endblock

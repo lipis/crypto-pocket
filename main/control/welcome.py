@@ -21,9 +21,21 @@ def welcome():
 
     total_profit = 0
     total_net_worth = 0
+
+    currency_codes = []
     for transaction_db in transaction_dbs:
       total_profit += transaction_db.profit_amount_user
       total_net_worth += transaction_db.net_worth_user
+      currency_codes.append(transaction_db.acquired_currency_code)
+
+    currency_codes = list(set(currency_codes))
+    price_dbs = []
+    user_currency_code = auth.current_user_db().currency_key.get().code if auth.current_user_db().currency_key else 'USD'
+    for currency_code in currency_codes:
+      if currency_code != user_currency_code:
+        price_db = model.Price.get_by('code_unique', '%s%s' % tuple(sorted([currency_code, user_currency_code])))
+        if price_db:
+          price_dbs.append(price_db)
 
     return flask.render_template(
       'welcome.html',
@@ -32,6 +44,7 @@ def welcome():
       total_profit=total_profit,
       total_net_worth=total_net_worth,
       currency_dbs=currency_dbs,
+      price_dbs=price_dbs,
       api_url=flask.url_for('api.transaction.list'),
     )
   return flask.render_template(

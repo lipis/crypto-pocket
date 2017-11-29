@@ -3,6 +3,7 @@ $ = require('gulp-load-plugins')()
 config = require '../config'
 paths = require '../paths'
 util = require '../util'
+uglify = require('gulp-uglify-es').default
 
 
 is_coffee = (file) ->
@@ -14,7 +15,7 @@ gulp.task 'script', false, ->
   .pipe $.plumber errorHandler: util.onError
   .pipe $.if is_coffee, $.coffee()
   .pipe $.concat 'script.js'
-  .pipe $.uglify()
+  .pipe uglify()
   .pipe $.size {title: 'Minified scripts'}
   .pipe gulp.dest "#{paths.static.min}/script"
 

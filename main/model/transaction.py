@@ -18,7 +18,7 @@ class Transaction(model.Base):
   spent_currency_key = ndb.KeyProperty(kind=model.Currency, required=True, verbose_name=_(u'Spent Currency'))
   fee = ndb.FloatProperty(default=0, verbose_name=_(u'Fee'))
   acquired_amount = ndb.FloatProperty(default=0, verbose_name=_(u'Acquired'))
-  acquired_currency_key = ndb.KeyProperty(kind=model.Currency, verbose_name=_(u'Acquired Currency'))
+  acquired_currency_key = ndb.KeyProperty(kind=model.Currency, required=True, verbose_name=_(u'Acquired Currency'))
   notes = ndb.StringProperty(default='', verbose_name=_(u'Notes'))
   platform = ndb.StringProperty(default='', verbose_name=_(u'Platform'))
 
@@ -35,6 +35,10 @@ class Transaction(model.Base):
     if self.acquired_amount != 0:
       return self.spent_amount / self.acquired_amount
     return 0
+
+  @ndb.ComputedProperty
+  def acquired_currency_code(self):
+    return self.acquired_currency_key.get().code
 
   @ndb.ComputedProperty
   def current_rate(self):

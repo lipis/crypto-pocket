@@ -170,3 +170,7 @@
     <span class="fa fa-fw fa-minus"></span>
   # endif
 # endmacro
+
+{% macro rate_class(rate) -%}
+  {{'success' if rate > 0 else ('danger' if rate < 0 else 'default')}}
+{%- endmacro %}

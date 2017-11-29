@@ -17,10 +17,10 @@
   # if current_user.id > 0
     # if transaction_dbs
       # set profit_user_percentage = (total_profit / (total_net_worth - total_profit)) * 100 if (total_net_worth - total_profit) != 0 else 0
-      <div class="row text-center {{'text-success' if profit_user_percentage >= 0 else 'text-danger'}}">
+      <div class="row text-center">
         <div class="col-sm-4">
           <h5>&nbsp;</h5>
-          <h2>
+          <h2 class="text-{{utils.rate_class(profit_user_percentage)}}">
             {{utils.rate_arrow(profit_user_percentage)}}
             {{'{:,.1f}'.format(profit_user_percentage)}}%
             {{utils.rate_arrow(profit_user_percentage)}}
@@ -28,15 +28,41 @@
         </div>
         <div class="col-sm-4">
           <h5>{{_('Profit')}}</h5>
-          <h2>{{utils.currency(total_profit, user_currency_db.code)}}</h2>
+          <h2 class="text-{{utils.rate_class(profit_user_percentage)}}">{{utils.currency(total_profit, user_currency_db.code)}}</h2>
         </div>
         <div class="col-sm-4">
           <h5>{{_('Net worth')}}</h5>
-          <h2>{{utils.currency(total_net_worth, user_currency_db.code)}}</h2>
+          <h2 class="text-{{utils.rate_class(profit_user_percentage)}}">{{utils.currency(total_net_worth, user_currency_db.code)}}</h2>
         </div>
       </div>
       <hr>
     # endif
+
+    # if price_dbs
+      <div class="text-center">
+        # for price_db in price_dbs
+        <span class="current-rate well well-sm text-nowrap crypto-border-{{utils.rate_class(price_db.amount_open_percentage)}}">
+          <span class="text-{{utils.rate_class(price_db.amount_open_percentage)}}">
+            {{utils.rate_arrow(price_db.amount_open_percentage)}}
+            {{'{:,.1f}'.format(price_db.amount_open_percentage)}}%
+          </span>
+          <span class="current-rate-code">
+            {{price_db.code[:3]}}
+            <strong> / {{price_db.code[3:]}}</strong>:
+          </span>
+          <span class="current-rate-amount">{{utils.currency(price_db.amount, '')}}</span>
+        </span>&nbsp;
+        # endfor
+        <br>
+        <span class="text-muted">
+          {{_('Last updated')}}
+          <time datetime="{{price_dbs[0].modified}}">{{price_dbs[0].modified.strftime('%Y-%m-%d')}}</time>.
+        </span>
+      </div>
+
+      <hr class="break">
+    # endif
+
     <p class="text-center">
       <a class="btn btn-primary" href="{{url_for('transaction_update')}}">
         <fa class="fa fa-plus fa-fw"></fa> {{_('Add Investment')}}
@@ -47,7 +73,7 @@
         <div class="col-sm-6 col-md-4">
           # set spent_currency_db = transaction_db.spent_currency_key.get()
           # set acquired_currency_db = transaction_db.acquired_currency_key.get()
-          <div class="panel {{'panel-success' if transaction_db.net_worth > transaction_db.spent_amount else 'panel-danger' if transaction_db.current_rate else 'panel-default'}}">
+          <div class="panel panel-{{utils.rate_class(transaction_db.net_worth - transaction_db.spent_amount)}}">
             <div class="panel-heading">
               <div class="panel-title text-nowrap">
                 <div class="row">

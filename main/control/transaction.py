@@ -72,8 +72,8 @@ def transaction_update(transaction_id=0):
 
   user_dbs, user_cursor = model.User.get_dbs(limit=-1)
   currency_dbs, currency_cursor = model.Currency.get_dbs(limit=-1)
-  form.spent_currency_key.choices = [(c.key.urlsafe(), c.name) for c in currency_dbs]
-  form.acquired_currency_key.choices = [(c.key.urlsafe(), c.name) for c in currency_dbs]
+  form.spent_currency_key.choices = [(c.key.urlsafe(), '%s (%s)' % (c.name, c.code)) for c in currency_dbs]
+  form.acquired_currency_key.choices = [(c.key.urlsafe(), '%s (%s)' % (c.name, c.code)) for c in currency_dbs]
   if flask.request.method == 'GET' and not form.errors:
     form.spent_currency_key.data = transaction_db.spent_currency_key.urlsafe() if transaction_db.spent_currency_key else None
     form.acquired_currency_key.data = transaction_db.acquired_currency_key.urlsafe() if transaction_db.acquired_currency_key else None
