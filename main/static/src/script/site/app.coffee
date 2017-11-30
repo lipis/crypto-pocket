@@ -18,9 +18,7 @@ $ -> $('html.exchange').each ->
 
 
 refresh = ->
-  console.log('sdf');
-  setInterval () =>
-
+  setInterval =>
     if parseInt($($('time').get(0)).text()) >= 10
       window.location.reload()
-  , 1000 * 60 * 5
+  , 1000 * 60
