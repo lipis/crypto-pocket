@@ -264,7 +264,7 @@ def price_normalize():
     if index == 0:
       continue
 
-    if price_db.code_unique == price_dbs[index - 1].code:
+    if price_db.code_unique == price_dbs[index - 1].code_unique:
       price_db.key.delete()
 
   updated_dbs = []
