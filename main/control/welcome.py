@@ -33,7 +33,7 @@ def welcome():
     user_currency_code = auth.current_user_db().currency_key.get().code if auth.current_user_db().currency_key else 'USD'
     for currency_code in currency_codes:
       if currency_code != user_currency_code:
-        price_db = model.Price.get_by('code_unique', '%s%s' % tuple(sorted([currency_code, user_currency_code])))
+        price_db = model.Price.get_by('code_unique', ':'.join(tuple(sorted([currency_code, user_currency_code]))))
         if price_db:
           price_dbs.append(price_db)
 
