@@ -18,11 +18,11 @@ class Price(model.Base):
 
   @ndb.ComputedProperty
   def code(self):
-    return '%s%s' % (self.currency_from_key.get().code, self.currency_to_key.get().code)
+    return '%s:%s' % (self.currency_from_key.get().code, self.currency_to_key.get().code)
 
   @ndb.ComputedProperty
   def code_unique(self):
-    return '%s%s' % tuple(sorted([self.currency_from_key.get().code, self.currency_to_key.get().code]))
+    return '%s:%s' % tuple(sorted([self.currency_from_key.get().code, self.currency_to_key.get().code]))
 
   @ndb.ComputedProperty
   def amount_currency(self):

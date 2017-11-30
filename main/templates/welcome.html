@@ -25,9 +25,7 @@
         <div class="col-sm-4">
           <h5>&nbsp;</h5>
           <h2 class="text-{{utils.rate_class(profit_user_percentage)}}">
-            {{utils.rate_arrow(profit_user_percentage)}}
-            {{'{:,.1f}'.format(profit_user_percentage)}}%
-            {{utils.rate_arrow(profit_user_percentage)}}
+            {{'+' if profit_user_percentage > 0}}{{'{:,.1f}'.format(profit_user_percentage)}}%
           </h2>
         </div>
         <div class="col-sm-4">
@@ -47,12 +45,11 @@
         # for price_db in price_dbs
         <span class="current-rate well well-sm text-nowrap crypto-border-{{utils.rate_class(price_db.amount_open_percentage)}}">
           <span class="text-{{utils.rate_class(price_db.amount_open_percentage)}}">
-            {{utils.rate_arrow(price_db.amount_open_percentage)}}
-            {{'{:,.1f}'.format(price_db.amount_open_percentage)}}%
+            {{'+' if price_db.amount_open_percentage > 0}}{{'{:,.1f}'.format(price_db.amount_open_percentage)}}%
           </span>
           <span class="current-rate-code">
-            {{price_db.code[:3]}}
-            <strong> / {{price_db.code[3:]}}</strong>:
+            {{price_db.code[:price_db.code.find(':')]}}
+            <strong> / {{price_db.code[price_db.code.find(':') + 1:]}}</strong>:
           </span>
           <span class="current-rate-amount">{{utils.currency(price_db.amount, '')}}</span>
         </span>&nbsp;
@@ -82,14 +79,13 @@
               <div class="panel-title text-nowrap">
                 <div class="row">
                   <div class="col-xs-6">
-                    {{utils.rate_arrow(transaction_db.profit_percentage)}}
                     {{utils.currency_icon(acquired_currency_db.code)}}
                     {{acquired_currency_db.name}}
                     <br>
                     <span class="lead">{{utils.currency(transaction_db.net_worth_user, user_currency_db.code)}}</span>
                   </div>
                   <div class="col-xs-6 text-right">
-                    {{'{:,.1f}'.format(transaction_db.profit_percentage)}}%
+                    {{'+' if transaction_db.profit_percentage > 0}}{{'{:,.1f}'.format(transaction_db.profit_percentage)}}%
                     <br>
                     <small>{{utils.currency(transaction_db.acquired, acquired_currency_db.code)}}</small>
                   </div>
