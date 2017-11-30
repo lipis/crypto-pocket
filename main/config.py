@@ -2,6 +2,7 @@
 
 import os
 import operator
+import flask
 
 PRODUCTION = os.environ.get('SERVER_SOFTWARE', '').startswith('Google App Eng')
 DEBUG = DEVELOPMENT = not PRODUCTION
@@ -43,6 +44,8 @@ DEFAULT_DB_LIMIT = 64
 SIGNIN_RETRY_LIMIT = 4
 TAG_SEPARATOR = ' '
 
+OG_DESCRIPTION = 'Track your crypto investments.'
+OG_IMAGE = '/p/img/open-graph.png'
 
 ###############################################################################
 # i18n Stuff

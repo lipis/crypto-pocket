@@ -57,6 +57,7 @@ def welcome():
 @app.route('/exchange/')
 def exchange(code=None):
   price_qry = None
+  code = code.upper() if code else code
   if code:
     code = code.upper()
     price_qry = model.Price.query(ndb.OR(model.Price.currency_from_code == code, model.Price.currency_to_code == code))
@@ -65,10 +66,11 @@ def exchange(code=None):
   return flask.render_template(
     'exchange.html',
     html_class='exchange',
-    title='Exchange',
+    title='Exchange rates %s' % (' (%s)' % (code) if code else ''),
     price_dbs=price_dbs,
     currency_dbs=currency_dbs,
     code=code,
+    canonical_url=flask.url_for('exchange', code=code if code else None),
     api_url=flask.url_for('api.price.list'),
   )
 

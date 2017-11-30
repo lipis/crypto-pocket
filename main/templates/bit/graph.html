@@ -1,0 +1,11 @@
+<meta property="og:description" name="description" content="{{description or config.OG_DESCRIPTION}}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{canonical_url or request.host_url}}">
+<meta property="og:image" content="{{open_graph_image or '%s%s' % (request.url_root[:-1], config.OG_IMAGE)}}">
+
+<title>
+  # block title
+    {{title + ' |' if title}}
+  # endblock
+  {{config.CONFIG_DB.brand_name}}
+</title>

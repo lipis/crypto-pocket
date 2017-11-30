@@ -28,8 +28,7 @@
           <div class="col-sm-4 col-xs-6">
             <div class="form-group {{'has-error' if form.spent_amount.errors}}">
               <div class="ellipsis">
-
-                <label class="control-label" for="spent_amount">{{_(form.spent_amount.label)}}</label>
+                {{_(form.spent_amount.label, class='control-label')}}
                 (<a id="fetch" href="#">{{_('fetch')}}</a>)
               </div>
               {{form.spent_amount(class='form-control')}}

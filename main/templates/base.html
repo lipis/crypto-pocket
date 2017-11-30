@@ -2,12 +2,7 @@
 <html class="{% block html_class %}{{html_class}}{% endblock %}" lang="{{request.locale_html}}">
   <head>
     # include 'bit/meta.html'
-    <title>
-      # block title
-        {{title + ' |' if title}}
-      # endblock
-      {{config.CONFIG_DB.brand_name}}
-    </title>
+    # include 'bit/graph.html'
     # include 'bit/style.html'
     # block head
     # endblock

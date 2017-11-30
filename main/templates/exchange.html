@@ -16,7 +16,7 @@
         # if last_currency_db and last_currency_db.is_crypto != currency_db.is_crypto
           <br>
         # endif
-        <a href="{{url_for('exchange', code=currency_db.code)}}"><span class="label {{'label-info' if code == currency_db.code  else 'label-default'}}">
+        <a href="{{url_for('exchange', code=currency_db.code)}}" rel="nofollow"><span class="label {{'label-info' if code == currency_db.code  else 'label-default'}}">
           {{utils.currency_icon(currency_db.code)}} {{currency_db.name}} <small>({{currency_db.code}})</small>
         </span></a> &nbsp;
         # set last_currency_db = currency_db
@@ -60,10 +60,16 @@
     </table>
   </div>
   <p class="text-muted text-right">
-    {{_('All data is fetched from ')}} <a href="https://cryptocompare.com">CryptoCompare</a>.
+    # if config.CONFIG_DB.feedback_email
+      <br>{{_('If you want a currency that is missing, ask for it via the')}}
+      <a href="{{url_for('feedback')}}">{{_('feedback form')}}</a>.
+    # endif
+
     # if price_dbs
       <br>{{_('Last updated')}}
-      <time datetime="{{price_dbs[0].modified}}">{{price_dbs[0].modified.strftime('%Y-%m-%d')}}</time>.
+      <time datetime="{{price_dbs[0].modified}}">{{price_dbs[0].modified.strftime('%Y-%m-%d')}}</time>,
+      {{_('from')}}
+      <a href="https://cryptocompare.com">CryptoCompare</a>.
     # endif
   </p>
 

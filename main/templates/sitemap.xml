@@ -14,6 +14,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>{{url_for('exchange', _external=True)}}</loc>
+    <lastmod>{{lastmod}}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>{{url_for('signin', _external=True)}}</loc>
     <lastmod>{{lastmod}}</lastmod>
     <changefreq>weekly</changefreq>

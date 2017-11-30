@@ -7,6 +7,10 @@
       <div class="container text-center">
         <h1>{{config.CONFIG_DB.brand_name}}</h1>
         <p>{{_('Track your crypto investments.')}}</p>
+
+        <a href="{{url_for('signin')}}" class="btn btn-lg btn-success">
+          <span class="fa fa-fw fa-sign-in"></span> {{_('Sign in')}}
+        </a>
       </div>
     </div>
   # endif
