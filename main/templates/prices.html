@@ -14,7 +14,7 @@
       </span></a> &nbsp;
       # for currency_db in currency_dbs
         # if last_currency_db and last_currency_db.is_crypto != currency_db.is_crypto
-          <br>
+          <hr class="half-break">
         # endif
         <a href="{{url_for('prices', code=currency_db.code)}}" rel="nofollow"><span class="label {{'label-info' if code == currency_db.code  else 'label-default'}}">
           {{utils.currency_icon(currency_db.code)}} {{currency_db.name}} <small>({{currency_db.code}})</small>
@@ -23,42 +23,42 @@
       # endfor
     </p>
   </div>
-  <div class="table-responsive {{'hide' if not price_dbs|count}}">
-    <table class="table table-striped table-bordered table-hover">
-      <thead>
-        <tr class="text-nowrap">
-          <th class="col-xs-4 text-center">{{utils.order_by_link('currency_from_name', _('From'))}}</th>
-          <th class="col-xs-4 text-center">{{utils.order_by_link('currency_to_name', _('To'))}}</th>
-          <th class="text-center"></th>
-          <th class="col-xs-2 text-center">{{utils.order_by_link('amount', _('Amount'))}}</th>
-          <th class="col-xs-2 text-center">{{utils.order_by_link('amount_open_percentage', _('Daily change'))}}</th>
+  <table class="table table-striped table-bordered table-hover {{'hide' if not price_dbs|count}}">
+    <thead>
+      <tr class="text-nowrap">
+        <th class="hidden-xs col-xs-4">{{utils.order_by_link('currency_from_name', _('From'))}}</th>
+        <th class="hidden-xs col-xs-4">{{utils.order_by_link('currency_to_name', _('To'))}}</th>
+        <th class="col-xs-2 text-center">{{_('From')}} / {{_('To')}}</th>
+        <th class="col-xs-2 text-right">{{utils.order_by_link('amount', _('Amount'))}}</th>
+        <th class="col-xs-2 text-right">{{utils.order_by_link('amount_open_percentage', _('Daily change'))}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      # set user_currency_db = current_user.user_db.currency_key.get() if current_user.user_db.currency_key else None
+      # for price_db in price_dbs
+        # set currency_from_db = price_db.currency_from_key.get()
+        # set currency_to_db = price_db.currency_to_key.get()
+        <tr class="{{'text-strong' if user_currency_db and user_currency_db.code in price_db.code and code != user_currency_db.code}}">
+          <td class="hidden-xs {{'text-strong' if code == currency_from_db.code}}">
+            {{currency_from_db.name}}
+            <small class="text-muted">({{currency_from_db.code}})</small>
+          </td>
+          <td class="hidden-xs {{'text-strong' if code == currency_to_db.code}}">
+            {{currency_to_db.name}}
+            <small class="text-muted">({{currency_to_db.code}})</small>
+          </td>
+          <td class="text-center text-nowrap">
+            <span class="{{'text-strong' if code == currency_from_db.code}}">{{currency_from_db.code}}</span> /
+            <span class="{{'text-strong' if code == currency_to_db.code}}">{{currency_to_db.code}}</span>
+          </td>
+          <td class="text-right text-nowrap">{{utils.currency(price_db.amount, currency_to_db.code)}}</td>
+          <td class="text-right text-nowrap {{'text-success' if price_db.amount_open_percentage >= 0 else 'text-danger'}}">
+            {{'+' if price_db.amount_open_percentage > 0}}{{'{:,.2f}'.format(price_db.amount_open_percentage)}}%
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        # set user_currency_db = current_user.user_db.currency_key.get() if current_user.user_db.currency_key else None
-        # for price_db in price_dbs
-          # set currency_from_db = price_db.currency_from_key.get()
-          # set currency_to_db = price_db.currency_to_key.get()
-          <tr class="{{'text-strong' if user_currency_db and user_currency_db.code in price_db.code and code != user_currency_db.code}}">
-            <td class="{{'text-strong' if code == currency_from_db.code}}">
-              {{currency_from_db.name}}
-              <small class="text-muted">({{currency_from_db.code}})</small>
-            </td>
-            <td class="{{'text-strong' if code == currency_to_db.code}}">
-              {{currency_to_db.name}}
-              <small class="text-muted">({{currency_to_db.code}})</small>
-            </td>
-            <td class="text-center">{{currency_from_db.code}}/{{currency_to_db.code}}</td>
-            <td class="text-right">{{utils.currency(price_db.amount, currency_to_db.code)}}</td>
-            <td class="text-right text-nowrap {{'text-success' if price_db.amount_open_percentage >= 0 else 'text-danger'}}">
-              {{'{:,.2f}'.format(price_db.amount_open_percentage)}}%
-              {{utils.rate_arrow(price_db.amount_open_percentage)}}
-            </td>
-          </tr>
-        # endfor
-      </tbody>
-    </table>
-  </div>
+      # endfor
+    </tbody>
+  </table>
   <p class="text-muted text-right">
     # if config.CONFIG_DB.feedback_email
       <br>{{_('If you want a currency that is missing, ask for it via the')}}

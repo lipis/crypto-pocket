@@ -258,7 +258,7 @@ def price_exchange():
 
 
 def price_normalize():
-  price_dbs = model.Price.query().order(model.Price.code).fetch()
+  price_dbs = model.Price.query().order(model.Price.code_unique).fetch()
 
   for index, price_db in enumerate(list(price_dbs)):
     if index == 0:

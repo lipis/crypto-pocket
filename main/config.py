@@ -45,7 +45,8 @@ SIGNIN_RETRY_LIMIT = 4
 TAG_SEPARATOR = ' '
 
 OG_DESCRIPTION = 'Track your crypto portfolios and your investments.'
-OG_IMAGE = '/p/img/open-graph.png'
+OG_IMAGE = '/p/img/og-main.png'
+OG_PRICES = '/p/img/og-prices.png'
 
 ###############################################################################
 # i18n Stuff

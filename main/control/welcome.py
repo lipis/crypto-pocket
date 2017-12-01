@@ -71,6 +71,7 @@ def prices(code=None):
     currency_dbs=currency_dbs,
     code=code,
     canonical_url=flask.url_for('prices', code=code if code else None),
+    open_graph_image=config.OG_PRICES,
     api_url=flask.url_for('api.price.list'),
   )
 
