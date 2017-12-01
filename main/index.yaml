@@ -65,3 +65,14 @@ indexes:
   - name: user_key
   - name: profit_percentage
     direction: desc
+
+- kind: User
+  properties:
+  - name: active
+  - name: modified
+
+- kind: User
+  properties:
+  - name: active
+  - name: modified
+    direction: desc

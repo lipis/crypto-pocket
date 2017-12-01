@@ -6,7 +6,7 @@
     <div class="jumbotron">
       <div class="container text-center">
         <h1>{{config.CONFIG_DB.brand_name}}</h1>
-        <p>{{_('Track your crypto investments.')}}</p>
+        <p>{{_(config.OG_DESCRIPTION)}}</p>
 
         <a href="{{url_for('signin')}}" class="btn btn-lg btn-success">
           <span class="fa fa-fw fa-sign-in"></span> {{_('Sign in')}}
@@ -15,6 +15,7 @@
     </div>
   # endif
 # endblock
+
 
 # block content
   # set user_currency_db = current_user.user_db.currency_key.get() if current_user.user_db.currency_key else None
@@ -43,16 +44,16 @@
     # if price_dbs
       <div class="text-center">
         # for price_db in price_dbs
-        <span class="current-rate well well-sm text-nowrap crypto-border-{{utils.rate_class(price_db.amount_open_percentage)}}">
-          <span class="text-{{utils.rate_class(price_db.amount_open_percentage)}}">
-            {{'+' if price_db.amount_open_percentage > 0}}{{'{:,.1f}'.format(price_db.amount_open_percentage)}}%
-          </span>
-          <span class="current-rate-code">
-            {{price_db.code[:price_db.code.find(':')]}}
-            / {{price_db.code[price_db.code.find(':') + 1:]}}:
-          </span>
-          <span class="current-rate-amount">{{utils.currency(price_db.amount, '')}}</span>
-        </span>&nbsp;
+          <span class="current-rate well well-sm text-nowrap crypto-border-{{utils.rate_class(price_db.amount_open_percentage)}}">
+            <span class="text-{{utils.rate_class(price_db.amount_open_percentage)}}">
+              {{'+' if price_db.amount_open_percentage > 0}}{{'{:,.1f}'.format(price_db.amount_open_percentage)}}%
+            </span>
+            <span class="current-rate-code">
+              {{price_db.code[:price_db.code.find(':')]}}
+              / {{price_db.code[price_db.code.find(':') + 1:]}}:
+            </span>
+            <span class="current-rate-amount">{{utils.currency(price_db.amount, '')}}</span>
+          </span>&nbsp;<br class="visible-xs">
         # endfor
         <br>
         <span class="text-muted">
@@ -94,33 +95,28 @@
             </div>
 
             <div class="panel-body text-nowrap">
-                <div>
-                  <strong>
-                    <span class="pull-right">{{utils.currency(transaction_db.net_worth, spent_currency_db.code)}}</span>
-                    {{_('Net worth')}}
-                  </strong>
-                </div>
-              <div>
-                <span class="pull-right">{{utils.currency(transaction_db.profit_amount, spent_currency_db.code)}}</span>
-                {{_('Profit')}}
+              <div class="text-muted">
+                <span class="pull-right">{{utils.currency(transaction_db.acquired_rate, spent_currency_db.code)}}</span>
+                {{_('Investment price')}}
               </div>
+              <div>
+                <span class="pull-right">{{utils.currency(transaction_db.current_rate, spent_currency_db.code)}}</span>
+                {{_('Current price')}}
+              </div>
+              <hr>
               <div class="text-muted">
                 <span class="pull-right">{{utils.currency(transaction_db.spent, spent_currency_db.code)}}</span>
                 {{_('Spent')}}
               </div>
-              <hr>
               <div>
-                <span class="pull-right">{{utils.currency(transaction_db.current_rate, spent_currency_db.code)}}</span>
-                {{_('Current rate')}}
+                <span class="pull-right">{{utils.currency(transaction_db.profit_amount, spent_currency_db.code)}}</span>
+                {{_('Profit') if transaction_db.profit_amount >=0 else _('Loss')}}
               </div>
-              <div class="text-muted">
-                <span class="pull-right">{{utils.currency(transaction_db.acquired_rate, spent_currency_db.code)}}</span>
-                {{_('Initial investment rate')}}
-              </div>
-              <hr>
               <div>
-                <span class="pull-right">{{transaction_db.date.strftime('%d %b %Y')}}</span>
-                {{_('Invested')}}
+                <strong>
+                  <span class="pull-right">{{utils.currency(transaction_db.net_worth, spent_currency_db.code)}}</span>
+                  {{_('Net worth')}}
+                </strong>
               </div>
             </div>
             <div class="panel-footer">
@@ -129,6 +125,12 @@
           </div>
         </div>
       # endfor
+    </div>
+  # else
+    <div class="row">
+      <div class="col-sm-offset-1 col-sm-10">
+        <img src="/p/img/front-page.png?{{config.CURRENT_VERSION_ID}}" alt="Application screenshot" class="img-thumbnail">
+      </div>
     </div>
   # endif
 # endblock

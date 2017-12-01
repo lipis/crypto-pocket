@@ -4,14 +4,16 @@
       <p>
         {{_('Version')}}: {{config.CURRENT_VERSION_NAME}}
         (<time datetime="{{config.CURRENT_VERSION_DATE}}">{{config.CURRENT_VERSION_DATE}}</time>)
-        # if config.CONFIG_DB.feedback_email
-          | <a href="{{url_for('feedback')}}">{{_('Feedback')}}</a>
-        # endif
         # if api_url
           | <a class='api-url' href="{{api_url}}{% if request.query_string %}?{{request.query_string}}{% endif %}" target="_blank" data-api-url="{{api_url}}">{{_('View in JSON')}}</a>
         # endif
       </p>
     # endif
+    <p>
+      <a href="https://github.com/topless/crypto-pocket-issues/issues/new" target="_github_issues">
+        <span class="fa fa-fw fa-github"></span> {{_('Send Feedback')}}
+      </a>
+    </p>
     <p>&copy; 2017 - {{config.CONFIG_DB.brand_name}}</p>
   </div>
 </footer>
