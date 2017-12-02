@@ -556,9 +556,13 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
-coffee-script@1.12.7, coffee-script@^1.10.0:
+coffee-script@1.12.7:
   version "1.12.7"
   resolved "https://registry.yarnpkg.com/coffee-script/-/coffee-script-1.12.7.tgz#c05dae0cb79591d05b3070a8433a98c9a89ccc53"
+
+coffeescript@^1.10.0:
+  version "1.12.7"
+  resolved "https://registry.yarnpkg.com/coffeescript/-/coffeescript-1.12.7.tgz#e57ee4c4867cf7f606bfc4a0f2d550c0981ddd27"
 
 color-convert@^1.3.0, color-convert@^1.9.0:
   version "1.9.1"
@@ -1486,11 +1490,11 @@ gulp-bower@0.0.13:
     through2 "0.6.2"
     walk "2.3.3"
 
-gulp-coffee@2.3.4:
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/gulp-coffee/-/gulp-coffee-2.3.4.tgz#e9975faf3f26746fb2e72da9e3f32c9db5746daa"
+gulp-coffee@2.3.5:
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/gulp-coffee/-/gulp-coffee-2.3.5.tgz#8c64e9ac884e1bab4e20b66ac7c386a816859041"
   dependencies:
-    coffee-script "^1.10.0"
+    coffeescript "^1.10.0"
     gulp-util "^3.0.2"
     merge "^1.2.0"
     through2 "^2.0.1"
