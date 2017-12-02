@@ -1623,12 +1623,13 @@ gulp-start@1.0.1:
     gulp-start-process "^1.0.0"
     through2 "^0.6.3"
 
-gulp-uglify-es@0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/gulp-uglify-es/-/gulp-uglify-es-0.1.6.tgz#7e75a7f763df45d2d0fb88612d7af9ae97e2fd3f"
+gulp-uglify-es@0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/gulp-uglify-es/-/gulp-uglify-es-0.1.7.tgz#0e71cbfd2d0802b50f2dc5671ffc026aa8c91a70"
   dependencies:
     o-stream "^0.2.2"
-    uglify-es "^3.1.8"
+    uglify-es "^3.2.0"
+    vinyl-sourcemaps-apply "^0.2.1"
 
 gulp-util@3.0.8, gulp-util@>=3.0.0, gulp-util@^3, gulp-util@^3.0.0, gulp-util@^3.0.1, gulp-util@^3.0.2, gulp-util@^3.0.6, gulp-util@^3.0.7:
   version "3.0.8"
@@ -3842,7 +3843,7 @@ ua-parser-js@0.7.12:
   version "0.7.12"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.12.tgz#04c81a99bdd5dc52263ea29d24c6bf8d4818a4bb"
 
-uglify-es@3.2.0, uglify-es@^3.1.8:
+uglify-es@3.2.0, uglify-es@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/uglify-es/-/uglify-es-3.2.0.tgz#fbbfb9dc465ec7e5065701b9720d0de977d0bc24"
   dependencies:
