@@ -44,6 +44,8 @@ DEFAULT_DB_LIMIT = 64
 SIGNIN_RETRY_LIMIT = 4
 TAG_SEPARATOR = ' '
 
+GITHUB_ISSUE_NEW = 'https://github.com/topless/crypto-pocket-issues/issues/new'
+
 OG_DESCRIPTION = 'Track your crypto portfolios and your investments.'
 OG_IMAGE = '/p/img/og-main.png'
 OG_PRICES = '/p/img/og-prices.png'

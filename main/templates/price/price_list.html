@@ -22,9 +22,9 @@
       <tbody>
         # for price_db in price_dbs
           <tr>
-            <td>{{price_db.currency_from_key.get().name}} <span class="text-muted pull-right">{{price_db.currency_from_key.get().code}}</span></td>
-            <td>{{price_db.currency_to_key.get().name}} <span class="text-muted pull-right">{{price_db.currency_to_key.get().code}}</span></td>
-            <td class="text-right">{{utils.currency(price_db.amount, price_db.currency_to_key.get().code)}}</td>
+            <td>{{price_db.currency_from_name}} <span class="text-muted pull-right">{{price_db.currency_from_code}}</span></td>
+            <td>{{price_db.currency_to_name}} <span class="text-muted pull-right">{{price_db.currency_to_code}}</span></td>
+            <td class="text-right">{{utils.currency(price_db.amount, price_db.currency_to_code)}}</td>
             <td>
               <time datetime="{{price_db.modified}}">
                 {{price_db.modified.strftime('%Y-%m-%d')}}

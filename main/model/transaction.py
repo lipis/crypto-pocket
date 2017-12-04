@@ -24,7 +24,7 @@ class Transaction(model.Base):
 
   @ndb.ComputedProperty
   def spent(self):
-    return self.spent_amount + self.fee
+    return self.spent_amount or 0 + self.fee or 0
 
   @ndb.ComputedProperty
   def acquired(self):

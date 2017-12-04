@@ -17,24 +17,24 @@ class Price(model.Base):
   amount_open = ndb.FloatProperty(default=0, verbose_name=_(u'Amount Close'))
 
   @ndb.ComputedProperty
-  def code(self):
-    return '%s:%s' % (self.currency_from_key.get().code, self.currency_to_key.get().code)
-
-  @ndb.ComputedProperty
-  def code_unique(self):
-    return '%s:%s' % tuple(sorted([self.currency_from_key.get().code, self.currency_to_key.get().code]))
-
-  @ndb.ComputedProperty
-  def amount_currency(self):
-    return '%.4f %s' % (self.amount, self.currency_to_key.get().code)
-
-  @ndb.ComputedProperty
   def currency_from_code(self):
     return self.currency_from_key.get().code
 
   @ndb.ComputedProperty
   def currency_to_code(self):
     return self.currency_to_key.get().code
+
+  @ndb.ComputedProperty
+  def code(self):
+    return '%s:%s' % (self.currency_from_code, self.currency_to_code)
+
+  @ndb.ComputedProperty
+  def code_unique(self):
+    return '%s:%s' % tuple(sorted([self.currency_from_code, self.currency_to_code]))
+
+  @ndb.ComputedProperty
+  def amount_currency(self):
+    return '%.4f %s' % (self.amount, self.currency_to_code)
 
   @ndb.ComputedProperty
   def currency_from_name(self):
@@ -51,9 +51,21 @@ class Price(model.Base):
     return 1
 
   @ndb.ComputedProperty
+  def amount_open_invert(self):
+    if self.amount_open != 0:
+      return 1.0 / self.amount_open
+    return 1
+
+  @ndb.ComputedProperty
   def amount_open_percentage(self):
     if self.amount != 0:
       return ((self.amount - self.amount_open) / self.amount) * 100
+    return 0
+
+  @ndb.ComputedProperty
+  def amount_open_invert_percentage(self):
+    if self.amount_invert != 0:
+      return ((self.amount_invert - self.amount_open_invert) / self.amount_invert) * 100
     return 0
 
   @classmethod
@@ -67,6 +79,14 @@ class Price(model.Base):
     'currency_from_key': fields.Key,
     'currency_to_key': fields.Key,
     'amount': fields.Float,
+    'code': fields.String,
+    'code_unique': fields.String,
+    'currency_from_code': fields.String,
+    'currency_to_code': fields.String,
+    'currency_from_name': fields.String,
+    'currency_to_name': fields.String,
+    'amount_invert': fields.Float,
+    'amount_open_percentage': fields.Float,
   }
 
   FIELDS.update(model.Base.FIELDS)

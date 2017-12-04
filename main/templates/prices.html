@@ -61,8 +61,8 @@
   </table>
   <p class="text-muted text-right">
     # if config.CONFIG_DB.feedback_email
-      <br>{{_('If you want a currency that is missing, ask for it via the')}}
-      <a href="{{url_for('feedback')}}">{{_('feedback form')}}</a>.
+      <br>{{_('If you want a currency that is missing, request it on')}}
+      <a href="{{config.GITHUB_ISSUE_NEW}}">{{_('GitHub')}}</a>.
     # endif
 
     # if price_dbs

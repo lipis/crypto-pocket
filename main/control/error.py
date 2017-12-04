@@ -21,9 +21,7 @@ from main import app
 @app.errorhandler(422)  # Unprocessable Entity
 @app.errorhandler(500)  # Internal Server Error
 def error_handler(e):
-  try:
-    e.code
-  except AttributeError:
+  if not hasattr(e, 'code') or not isinstance(e.code, int):
     e.code = 500
     e.name = 'Internal Server Error'
 

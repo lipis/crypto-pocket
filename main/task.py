@@ -168,8 +168,8 @@ def update_price_task(price_db):
 
 
 def update_price(price_db):
-  code_from = price_db.currency_from_key.get().code
-  code_to = price_db.currency_to_key.get().code
+  code_from = price_db.currency_from_code
+  code_to = price_db.currency_to_code
   result = urlfetch.fetch('https://min-api.cryptocompare.com/data/price?fsym=%s&tsyms=%s&extraParams=%s' % (code_from, code_to, config.APPLICATION_NAME))
   if result.status_code == 200:
     content = json.loads(result.content)

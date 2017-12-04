@@ -45,6 +45,7 @@ def welcome():
       total_net_worth=total_net_worth,
       currency_dbs=currency_dbs,
       price_dbs=price_dbs,
+      user_currency_code=user_currency_code,
       api_url=flask.url_for('api.transaction.list'),
     )
   return flask.render_template(
@@ -71,7 +72,7 @@ def prices(code=None):
     currency_dbs=currency_dbs,
     code=code,
     canonical_url=flask.url_for('prices', code=code if code else None),
-    open_graph_image=config.OG_PRICES,
+    open_graph_image='%s%s' % (flask.request.url_root[:-1], config.OG_PRICES),
     api_url=flask.url_for('api.price.list'),
   )
 

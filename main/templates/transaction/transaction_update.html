@@ -31,7 +31,7 @@
                 {{_(form.spent_amount.label, class='control-label')}}
                 (<a id="fetch" href="#">{{_('fetch')}}</a>)
               </div>
-              {{form.spent_amount(class='form-control')}}
+              {{form.spent_amount(class='form-control', type='number')}}
               {{forms.field_errors(form.spent_amount)}}
               {{forms.field_description(form.spent_amount)}}
             </div>

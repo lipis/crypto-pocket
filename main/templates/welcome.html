@@ -30,12 +30,12 @@
           </h2>
         </div>
         <div class="col-sm-4">
-          <h5>{{_('Profit')}}</h5>
-          <h2 class="text-{{utils.rate_class(profit_user_percentage)}}">{{utils.currency(total_profit, user_currency_db.code)}}</h2>
+          <h5>{{_('Profit')}} <small>({{user_currency_code}})</small></h5>
+          <h2 class="text-{{utils.rate_class(profit_user_percentage)}}">{{utils.currency(total_profit, '')}}</h2>
         </div>
         <div class="col-sm-4">
-          <h5>{{_('Net worth')}}</h5>
-          <h2 class="text-{{utils.rate_class(profit_user_percentage)}}">{{utils.currency(total_net_worth, user_currency_db.code)}}</h2>
+          <h5>{{_('Net worth')}} <small>({{user_currency_code}})</small></h5>
+          <h2 class="text-{{utils.rate_class(profit_user_percentage)}}">{{utils.currency(total_net_worth, '')}}</h2>
         </div>
       </div>
       <hr>
@@ -44,15 +44,17 @@
     # if price_dbs
       <div class="text-center">
         # for price_db in price_dbs
-          <span class="current-rate well well-sm text-nowrap crypto-border-{{utils.rate_class(price_db.amount_open_percentage)}}">
-            <span class="text-{{utils.rate_class(price_db.amount_open_percentage)}}">
-              {{'+' if price_db.amount_open_percentage > 0}}{{'{:,.1f}'.format(price_db.amount_open_percentage)}}%
+          # set invert = price_db.currency_to_code != user_currency_code
+          # set amount_open_percentage = price_db.amount_open_invert_percentage if invert else price_db.amount_open_percentage
+          <span class="current-rate well well-sm text-nowrap crypto-border-{{utils.rate_class(amount_open_percentage)}}">
+            <span class="text-{{utils.rate_class(amount_open_percentage)}}">
+              {{'+' if amount_open_percentage > 0}}{{'{:,.1f}'.format(amount_open_percentage)}}%
             </span>
             <span class="current-rate-code">
-              {{price_db.code[:price_db.code.find(':')]}}
-              / {{price_db.code[price_db.code.find(':') + 1:]}}:
+              {{price_db.currency_to_code if invert else price_db.currency_from_code}}
+              / {{price_db.currency_from_code if invert else price_db.currency_to_code}}:
             </span>
-            <span class="current-rate-amount">{{utils.currency(price_db.amount, '')}}</span>
+            <span class="current-rate-amount">{{utils.currency(price_db.amount_invert if invert else price_db.amount, '')}}</span>
           </span>&nbsp;<br class="visible-xs">
         # endfor
         <br>
@@ -83,7 +85,7 @@
                     {{utils.currency_icon(acquired_currency_db.code)}}
                     {{acquired_currency_db.name}}
                     <br>
-                    <span class="lead">{{utils.currency(transaction_db.net_worth_user, user_currency_db.code)}}</span>
+                    <span class="lead">{{utils.currency(transaction_db.net_worth_user, user_currency_code)}}</span>
                   </div>
                   <div class="col-xs-6 text-right">
                     {{'+' if transaction_db.profit_percentage > 0}}{{'{:,.1f}'.format(transaction_db.profit_percentage)}}%
@@ -120,6 +122,9 @@
               </div>
             </div>
             <div class="panel-footer">
+              <time class="pull-right text-muted">
+                {{transaction_db.date.strftime('%d %b %Y')}}
+              </time>
               <a href="{{url_for('transaction_update', transaction_id=transaction_db.key.id())}}"><span class="fa fa-fw fa-pencil"></span> {{_('Edit')}}</a>
             </div>
           </div>
