@@ -1,5 +1,7 @@
 gae-init-babel
 ==============
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/lipis/crypto-pocket.svg?token=23bb141b084104b203bb11b9c3b2fa30b33d6515d71265e7d16ba40e8d9b6d6a&ts=1512476210624)](https://greenkeeper.io/)
 [![Slack Status](https://gae-init-slack.herokuapp.com/badge.svg)](https://gae-init-slack.herokuapp.com)
 
 > **gae-init-babel** is the easiest boilerplate to kick start new applications on Google
