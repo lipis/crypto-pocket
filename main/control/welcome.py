@@ -17,7 +17,7 @@ from main import app
 def welcome():
   if auth.is_logged_in():
     currency_dbs, currency_cursor = model.Currency.get_dbs(limit=-1, order='is_crypto,name')
-    transaction_dbs, transaction_cursor = model.Transaction.get_dbs(user_key=auth.current_user_key(), limit=-1)
+    transaction_dbs, transaction_cursor = model.Transaction.get_dbs(user_key=auth.current_user_key(), order='-date', limit=-1)
 
     total_profit = 0
     total_net_worth = 0

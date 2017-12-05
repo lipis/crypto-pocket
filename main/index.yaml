@@ -63,6 +63,17 @@ indexes:
 - kind: Transaction
   properties:
   - name: user_key
+  - name: date
+
+- kind: Transaction
+  properties:
+  - name: user_key
+  - name: date
+    direction: desc
+
+- kind: Transaction
+  properties:
+  - name: user_key
   - name: profit_percentage
     direction: desc
 
