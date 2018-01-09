@@ -1,5 +1,5 @@
 cron:
 - description: exchange
   url: /admin/cron/price/
-  schedule: every 10 minutes
+  schedule: every 30 minutes
 
