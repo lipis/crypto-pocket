@@ -35,6 +35,12 @@ indexes:
 - kind: Price
   properties:
   - name: currency_from_key
+  - name: currency_from_name
+  - name: currency_to_name
+
+- kind: Price
+  properties:
+  - name: currency_from_key
   - name: currency_to_key
   - name: amount
 
@@ -59,6 +65,18 @@ indexes:
   - name: currency_to_code
   - name: currency_from_name
   - name: currency_to_name
+
+- kind: Price
+  properties:
+  - name: currency_to_key
+  - name: currency_from_name
+  - name: currency_to_name
+
+- kind: Transaction
+  properties:
+  - name: spent_currency_key
+  - name: profit_percentage
+    direction: desc
 
 - kind: Transaction
   properties:

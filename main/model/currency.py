@@ -28,6 +28,9 @@ class Currency(model.Base):
   def get_price_dbs(self, **kwargs):
     return model.Price.get_dbs(currency_from_key=self.key, **kwargs)
 
+  def get_price_to_dbs(self, **kwargs):
+    return model.Price.get_dbs(currency_to_key=self.key, **kwargs)
+
   def _pre_put_hook(self):
     self.code = self.code.upper()
 
@@ -36,7 +39,8 @@ class Currency(model.Base):
     currency_db = key.get()
     transaction_keys = currency_db.get_transaction_dbs(keys_only=True, limit=-1)[0]
     price_keys = currency_db.get_price_dbs(keys_only=True, limit=-1)[0]
-    ndb.delete_multi(transaction_keys + price_keys)
+    price_to_keys = currency_db.get_price_to_dbs(keys_only=True, limit=-1)[0]
+    ndb.delete_multi(transaction_keys + price_keys + price_to_keys)
 
   FIELDS = {
     'name': fields.String,
