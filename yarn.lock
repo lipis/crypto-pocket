@@ -2587,12 +2587,14 @@ gulp-start@1.0.1:
     gulp-start-process "^1.0.0"
     through2 "^0.6.3"
 
-gulp-uglify-es@0.1.9:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/gulp-uglify-es/-/gulp-uglify-es-0.1.9.tgz#4d83c30ec6d2343d66b61703e1d301144a21f0f7"
+gulp-uglify-es@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/gulp-uglify-es/-/gulp-uglify-es-1.0.0.tgz#80b2f8e2fa7211c1706c597f08bbf620c870e545"
   dependencies:
     o-stream "^0.2.2"
+    plugin-error "^0.1.2"
     uglify-es "^3.2.0"
+    vinyl "^2.1.0"
     vinyl-sourcemaps-apply "^0.2.1"
 
 gulp-util@3.0.8, gulp-util@^3.0.0, gulp-util@^3.0.1, gulp-util@^3.0.6, gulp-util@^3.0.7:
