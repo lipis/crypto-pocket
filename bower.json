@@ -6,7 +6,7 @@
     "flag-icon-css": "2.9.0",
     "font-awesome": "4.7.0",
     "jquery": "3.2.1",
-    "moment": "2.19.2"
+    "moment": "2.20.1"
   },
   "name": "gae-init",
   "overrides": {
