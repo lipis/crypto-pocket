@@ -1,4 +1,4 @@
-gae-init-babel
+# gae-init-babel
 
 Read the [documentation][], where you can find a complete [feature list][], a detailed [tutorial][], the [how to][] section and more..
 
@@ -100,9 +100,11 @@ Due to lack of documentation if you run into any troubles, feel free to add an i
 [macos]: http://www.apple.com/macos/
 [moment.js]: http://momentjs.com/
 [ndb]: https://developers.google.com/appengine/docs/python/ndb/
+[node.js]: http://nodejs.org/
 [openid]: http://en.wikipedia.org/wiki/OpenID
 [pip]: http://www.pip-installer.org/
 [python 2.7]: https://developers.google.com/appengine/docs/python/python27/using27
 [social buttons]: http://lipis.github.io/bootstrap-social/
 [tutorial]: http://docs.gae-init.appspot.com/tutorial/
 [virtualenv]: http://www.virtualenv.org/
+[windows]: http://windows.microsoft.com/
